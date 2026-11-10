@@ -1,0 +1,118 @@
+import { useState } from 'react'
+import { Link, useNavigate, useParams } from 'react-router-dom'
+import PageHeader, { Placeholder } from '../components/PageHeader'
+import { Button } from '../components/ui'
+import { db, deleteOrArchiveExercise, isExerciseUsed } from '../db/db'
+import type { Exercise } from '../db/types'
+import { useLiveQuery } from '../db/useLiveQuery'
+import { equipmentLabel } from '../lib/equipment'
+
+export function BackButton() {
+  const navigate = useNavigate()
+  return (
+    <button type="button" onClick={() => navigate(-1)} className="rounded-full px-4 py-3 text-lg text-lime-400 active:bg-neutral-800">
+      ‹ Retour
+    </button>
+  )
+}
+
+function Media({ ex }: { ex: Exercise }) {
+  if (!ex.mediaUrl) return null
+  if (ex.mediaType === 'video') {
+    return /\.(mp4|webm|ogg)(\?|$)/i.test(ex.mediaUrl) ? (
+      <video src={ex.mediaUrl} controls className="w-full rounded-2xl" />
+    ) : (
+      <a href={ex.mediaUrl} target="_blank" rel="noreferrer" className="text-lime-400 underline">
+        Voir la vidéo
+      </a>
+    )
+  }
+  return <img src={ex.mediaUrl} alt={ex.name} className="w-full rounded-2xl" />
+}
+
+export default function ExerciceFiche() {
+  const { id = '' } = useParams()
+  const navigate = useNavigate()
+  const ex = useLiveQuery(() => db.exercises.get(id).then((e) => e ?? null), [id])
+  const [confirming, setConfirming] = useState<null | boolean>(null) // null = pas de confirmation ; true/false = utilisé ?
+
+  if (ex === undefined) return null
+  if (ex === null)
+    return (
+      <>
+        <PageHeader title="Exercice introuvable" action={<BackButton />} />
+      </>
+    )
+
+  async function askDelete() {
+    setConfirming(await isExerciseUsed(id))
+  }
+
+  async function doDelete() {
+    const r = await deleteOrArchiveExercise(id)
+    if (r === 'deleted') navigate('/exercices', { replace: true })
+    else setConfirming(null)
+  }
+
+  return (
+    <>
+      <PageHeader title="" action={<BackButton />} />
+      <div className="space-y-5 px-4">
+        <div>
+          <h1 className="text-2xl font-bold">{ex.name}</h1>
+          {ex.archived && <p className="mt-1 text-amber-400">Exercice archivé (masqué de la banque)</p>}
+        </div>
+
+        <dl className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-2 rounded-2xl bg-neutral-900 p-4 text-lg">
+          <dt className="text-neutral-400">Muscle</dt>
+          <dd>{ex.primaryMuscle}</dd>
+          <dt className="text-neutral-400">Secondaires</dt>
+          <dd>{ex.secondaryMuscles.length ? ex.secondaryMuscles.join(', ') : '—'}</dd>
+          <dt className="text-neutral-400">Matériel</dt>
+          <dd>{equipmentLabel(ex.equipment)}</dd>
+        </dl>
+
+        <Media ex={ex} />
+        {ex.instructions && <p className="whitespace-pre-line text-lg text-neutral-200">{ex.instructions}</p>}
+
+        <Placeholder>Record et graphique de progression : étape 5.</Placeholder>
+
+        <div className="grid grid-cols-2 gap-3">
+          <Link
+            to={`/exercices/${ex.id}/modifier`}
+            className="flex min-h-14 items-center justify-center rounded-2xl bg-neutral-800 text-lg font-semibold active:bg-neutral-700"
+          >
+            Modifier
+          </Link>
+          {ex.archived ? (
+            <Button variant="secondary" onClick={() => db.exercises.update(ex.id, { archived: false })}>
+              Désarchiver
+            </Button>
+          ) : (
+            <Button variant="danger" onClick={askDelete}>
+              Supprimer
+            </Button>
+          )}
+        </div>
+
+        {confirming !== null && (
+          <div className="space-y-3 rounded-2xl border border-red-900 bg-neutral-900 p-4">
+            <p className="text-lg">
+              {confirming
+                ? 'Cet exercice est utilisé dans une séance ou l’historique : il sera archivé (masqué, mais l’historique est conservé).'
+                : 'Supprimer définitivement cet exercice ?'}
+            </p>
+            <div className="grid grid-cols-2 gap-3">
+              <Button variant="secondary" onClick={() => setConfirming(null)}>
+                Annuler
+              </Button>
+              <Button variant="danger" onClick={doDelete}>
+                {confirming ? 'Archiver' : 'Supprimer'}
+              </Button>
+            </div>
+          </div>
+        )}
+      </div>
+    </>
+  )
+}

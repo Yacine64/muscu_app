@@ -4,6 +4,8 @@ import Accueil from './pages/Accueil'
 import Seance from './pages/Seance'
 import Programmes from './pages/Programmes'
 import Exercices from './pages/Exercices'
+import ExerciceFiche from './pages/ExerciceFiche'
+import ExerciceForm from './pages/ExerciceForm'
 import Progres from './pages/Progres'
 import Reglages from './pages/Reglages'
 
@@ -16,6 +18,9 @@ export default function App() {
           <Route path="/seance" element={<Seance />} />
           <Route path="/programmes" element={<Programmes />} />
           <Route path="/exercices" element={<Exercices />} />
+          <Route path="/exercices/nouveau" element={<ExerciceForm />} />
+          <Route path="/exercices/:id" element={<ExerciceFiche />} />
+          <Route path="/exercices/:id/modifier" element={<ExerciceForm />} />
           <Route path="/progres" element={<Progres />} />
           <Route path="/reglages" element={<Reglages />} />
           <Route path="*" element={<Navigate to="/" replace />} />

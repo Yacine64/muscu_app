@@ -1,0 +1,23 @@
+[
+  { "name": "Développé couché", "primaryMuscle": "Pectoraux", "secondaryMuscles": ["Épaules", "Triceps"], "equipment": ["barre", "machine"] },
+  { "name": "Développé incliné aux haltères", "primaryMuscle": "Pectoraux", "secondaryMuscles": ["Épaules", "Triceps"], "equipment": ["halteres"] },
+  { "name": "Développé incliné", "primaryMuscle": "Pectoraux", "secondaryMuscles": ["Épaules", "Triceps"], "equipment": ["barre", "machine"] },
+  { "name": "Écartés à la poulie", "primaryMuscle": "Pectoraux", "secondaryMuscles": ["Épaules"], "equipment": ["poulie"] },
+  { "name": "Pec deck", "primaryMuscle": "Pectoraux", "secondaryMuscles": ["Épaules"], "equipment": ["machine"] },
+  { "name": "Dips assistés", "primaryMuscle": "Pectoraux", "secondaryMuscles": ["Triceps", "Épaules"], "equipment": ["machine"] },
+  { "name": "Pompes", "primaryMuscle": "Pectoraux", "secondaryMuscles": ["Triceps", "Épaules", "Abdominaux"], "equipment": ["poids_du_corps"] },
+  { "name": "Développé épaules", "primaryMuscle": "Épaules", "secondaryMuscles": ["Triceps"], "equipment": ["machine", "halteres"] },
+  { "name": "Élévations latérales", "primaryMuscle": "Épaules", "secondaryMuscles": [], "equipment": ["halteres"] },
+  { "name": "Face pull", "primaryMuscle": "Épaules (arrière)", "secondaryMuscles": ["Haut du dos"], "equipment": ["poulie"] },
+  { "name": "Extensions triceps à la poulie", "primaryMuscle": "Triceps", "secondaryMuscles": [], "equipment": ["poulie"] },
+  { "name": "Tirage vertical prise large", "primaryMuscle": "Dos", "secondaryMuscles": ["Biceps"], "equipment": ["poulie"] },
+  { "name": "Tirage vertical prise serrée", "primaryMuscle": "Dos", "secondaryMuscles": ["Biceps"], "equipment": ["poulie"] },
+  { "name": "Rowing assis à la poulie", "primaryMuscle": "Dos", "secondaryMuscles": ["Biceps", "Épaules (arrière)"], "equipment": ["poulie"] },
+  { "name": "Rowing un bras avec haltère", "primaryMuscle": "Dos", "secondaryMuscles": ["Biceps"], "equipment": ["halteres"] },
+  { "name": "Curl biceps aux haltères", "primaryMuscle": "Biceps", "secondaryMuscles": ["Avant-bras"], "equipment": ["halteres"] },
+  { "name": "Presse à cuisses", "primaryMuscle": "Quadriceps", "secondaryMuscles": ["Fessiers", "Ischios"], "equipment": ["machine"] },
+  { "name": "Leg curl", "primaryMuscle": "Ischios", "secondaryMuscles": [], "equipment": ["machine"] },
+  { "name": "Fentes", "primaryMuscle": "Quadriceps", "secondaryMuscles": ["Fessiers"], "equipment": ["halteres"] },
+  { "name": "Gainage (planche)", "primaryMuscle": "Abdominaux", "secondaryMuscles": ["Épaules"], "equipment": ["poids_du_corps"] },
+  { "name": "Vélo / rameur (échauffement)", "primaryMuscle": "Cardio", "secondaryMuscles": [], "equipment": ["machine"] }
+]

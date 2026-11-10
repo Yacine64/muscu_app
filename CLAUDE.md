@@ -35,7 +35,11 @@ npm run lint       # oxlint
 
 - `src/App.tsx` : routes ; `src/components/BottomNav.tsx` : barre à 5 onglets
 - `src/pages/` : Accueil, Séance, Programmes, Exercices, Progrès, Réglages (icône en haut de l'accueil)
-- `src/data/exercises.json` : 21 exercices pré-chargés (étape 2)
+- `src/pages/Exercices.tsx` (liste, filtres gardés dans l'URL), `ExerciceFiche.tsx`, `ExerciceForm.tsx`
+- `src/components/ui.tsx` : Chip, Button, Label, inputClass (gros éléments tactiles)
+- `src/data/exercises.json` : 21 exercices pré-chargés
+- `src/db/` : `types.ts` (modèle), `db.ts` (Dexie v1 + pré-chargement au `populate`), `seed.ts` (exercices, programme A/B/C, réglages par défaut), `useLiveQuery.ts` (hook maison, pas de dexie-react-hooks)
+- `src/lib/` : logique pure et testée (`text`, `equipment`, `exerciseFilter`, `importExercises`) ; tests dans `*.test.ts`
 - `public/` : icônes PWA, générées depuis `icon-source/icon.svg` avec `rsvg-convert`
 
 ## Fonctionnalités V1 (6 modules + réglages)
@@ -60,6 +64,9 @@ Unités : kg et cm. Ids : UUID. Dates : ISO.
 - **Séance C** : un seul exercice « Dips assistés » ; les pompes sont un remplacement possible pendant la séance.
 - **Exercices chronométrés** (`isTimed`, ex. gainage 3×30–45 s) : `repsMin`/`repsMax` contiennent la fourchette en secondes. Si toutes les séries ont atteint le haut de la fourchette la fois précédente, suggérer **+5 s**.
 
+- **Suppression d'un exercice** : archivé (au lieu de supprimé) s'il apparaît dans l'historique **ou dans une séance modèle** ; un exercice archivé peut être désarchivé depuis sa fiche.
+- **Recherche** : chaque mot tapé doit apparaître dans le nom, dans n'importe quel ordre (« tirage large »).
+
 ## Hors V1 (à ne pas développer, mais ne pas bloquer)
 
 Médias des exercices, import d'une base externe (dédoublonnage par nom), alimentation/déficit calorique (nouvelle version du schéma Dexie), suivi des courses (séance « cardio » durée + distance).
@@ -67,7 +74,7 @@ Médias des exercices, import d'une base externe (dédoublonnage par nom), alime
 ## Plan de développement
 
 1. ✅ **Socle** : Vite + React + TS + Tailwind, PWA installable, déploiement GitHub Pages, 5 onglets vides.
-2. **Données et banque d'exercices** — fini quand « Dos + Poulie » affiche les 2 tirages verticaux et le rowing assis, et qu'un exercice ajouté reste après redémarrage.
+2. ✅ **Données et banque d'exercices** — fini quand « Dos + Poulie » affiche les 2 tirages verticaux et le rowing assis, et qu'un exercice ajouté reste après redémarrage.
 3. **Programmes** — fini quand on peut modifier la Séance A (ajouter, réordonner, supprimer) et retrouver les changements.
 4. **Séance en cours et minuteur** — fini quand une séance complète se fait sans connexion et reprend après fermeture.
 5. **Progression et corps** — fini quand, après 3 séances, le graphique d'un exercice montre 3 points corrects.
