@@ -10,19 +10,22 @@ export default function NumberField({
   onChange,
   decimal = false,
   suffix,
+  big = false,
 }: {
   label: string
   value: number
   onChange: (n: number) => void
   decimal?: boolean
   suffix?: string
+  big?: boolean
 }) {
-  const [text, setText] = useState(String(value))
+  const fmt = (v: number) => (decimal ? String(v).replace('.', ',') : String(v))
+  const [text, setText] = useState(fmt(value))
   const [lastValue, setLastValue] = useState(value)
   // Si la valeur change de l'extérieur (ex. correction), on met le texte à jour.
   if (value !== lastValue) {
     setLastValue(value)
-    if (Number(text.replace(',', '.')) !== value) setText(String(value))
+    if (Number(text.replace(',', '.')) !== value) setText(fmt(value))
   }
 
   return (
@@ -42,9 +45,9 @@ export default function NumberField({
               onChange(n)
             }
           }}
-          onBlur={() => setText(String(value))}
+          onBlur={() => setText(fmt(value))}
           onFocus={(e) => e.target.select()}
-          className="min-h-12 w-full min-w-0 bg-transparent px-3 text-center text-xl font-semibold text-neutral-100 focus:outline-none"
+          className={`${big ? 'min-h-16 text-3xl' : 'min-h-12 text-xl'} w-full min-w-0 bg-transparent px-2 text-center font-semibold text-inherit focus:outline-none`}
         />
         {suffix && <span className="pr-3 text-neutral-400">{suffix}</span>}
       </span>

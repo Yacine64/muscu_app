@@ -2,6 +2,8 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import BottomNav from './components/BottomNav'
 import Accueil from './pages/Accueil'
 import Seance from './pages/Seance'
+import SeanceResume from './pages/SeanceResume'
+import RestTimerBanner from './components/RestTimerBanner'
 import Programmes from './pages/Programmes'
 import ProgrammeEdit from './pages/ProgrammeEdit'
 import SeanceModele from './pages/SeanceModele'
@@ -18,6 +20,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Accueil />} />
           <Route path="/seance" element={<Seance />} />
+          <Route path="/seance/resume/:id" element={<SeanceResume />} />
           <Route path="/programmes" element={<Programmes />} />
           <Route path="/programmes/:id" element={<ProgrammeEdit />} />
           <Route path="/programmes/seance/:id" element={<SeanceModele />} />
@@ -30,6 +33,7 @@ export default function App() {
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
+      <RestTimerBanner />
       <BottomNav />
     </div>
   )

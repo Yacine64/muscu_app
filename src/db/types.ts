@@ -44,16 +44,26 @@ export interface SessionSet {
   done: boolean
 }
 
+/** Objectif copié depuis la séance modèle au démarrage (la séance modèle peut changer ensuite). */
+export interface EntryTarget {
+  repsMin: number // en secondes si isTimed
+  repsMax: number
+  restSeconds: number
+  isTimed?: boolean
+}
+
 export interface SessionEntry {
   exerciseId: string
   // Matériel réellement utilisé (décision utilisateur : historique séparé par matériel).
   equipment: Equipment
+  target?: EntryTarget
   sets: SessionSet[]
 }
 
 export interface WorkoutSession {
   id: string
   templateId?: string
+  templateName?: string // gardé pour l'historique, même si la séance modèle est supprimée
   startedAt: string
   endedAt?: string // vide = séance en cours
   note?: string

@@ -1,5 +1,11 @@
-import { Link } from 'react-router-dom'
-import PageHeader, { Placeholder } from '../components/PageHeader'
+import { Link, useNavigate } from 'react-router-dom'
+import PageHeader from '../components/PageHeader'
+import { Button } from '../components/ui'
+import { db } from '../db/db'
+import { startSession } from '../db/sessions'
+import { useLiveQuery } from '../db/useLiveQuery'
+import { formatLine, formatRest } from '../lib/programs'
+import { nextTemplateId, sessionsThisWeek } from '../lib/session'
 
 export default function Accueil() {
   return (
@@ -19,9 +25,79 @@ export default function Accueil() {
           </Link>
         }
       />
-      <Placeholder>
-        La prochaine séance, le résumé de la semaine et ton dernier poids s'afficheront ici.
-      </Placeholder>
+      <HomeContent />
     </>
+  )
+}
+
+function HomeContent() {
+  const navigate = useNavigate()
+  const data = useLiveQuery(async () => {
+    const [sessions, templates, programs, exercises] = await Promise.all([
+      db.sessions.toArray(),
+      db.templates.toArray(),
+      db.programs.toArray(),
+      db.exercises.toArray(),
+    ])
+    return { sessions, templates, programs, exercises }
+  })
+  if (!data) return null
+
+  const active = data.sessions.find((s) => !s.endedAt)
+  const program = data.programs.find((p) => p.isActive)
+  const next = data.templates.find((t) => t.id === nextTemplateId(program, data.sessions))
+  const week = sessionsThisWeek(data.sessions, new Date())
+  const name = (id: string) => data.exercises.find((e) => e.id === id)?.name ?? '—'
+
+  return (
+    <div className="space-y-4 px-4">
+      {active ? (
+        <section className="rounded-3xl border border-lime-700 bg-lime-950/40 p-5">
+          <p className="text-sm uppercase tracking-wide text-lime-300">Séance en cours</p>
+          <h2 className="mt-1 text-2xl font-bold">{active.templateName ?? 'Séance'}</h2>
+          <Button className="mt-4 w-full" onClick={() => navigate('/seance')}>
+            Reprendre
+          </Button>
+        </section>
+      ) : next ? (
+        <section className="rounded-3xl bg-neutral-900 p-5">
+          <p className="text-sm uppercase tracking-wide text-neutral-400">Prochaine séance</p>
+          <h2 className="mt-1 text-2xl font-bold">{next.name}</h2>
+          <ul className="mt-3 space-y-1 text-neutral-300">
+            {next.exercises.map((l, i) => (
+              <li key={i} className="flex justify-between gap-3">
+                <span className="truncate">{name(l.exerciseId)}</span>
+                <span className="shrink-0 text-neutral-400">
+                  {formatLine(l)} · {formatRest(l.restSeconds)}
+                </span>
+              </li>
+            ))}
+          </ul>
+          <Button
+            className="mt-4 w-full"
+            onClick={async () => {
+              await startSession(next.id)
+              navigate('/seance')
+            }}
+          >
+            Démarrer
+          </Button>
+          <Link to="/seance" className="mt-3 block text-center text-neutral-400 underline">
+            Choisir une autre séance
+          </Link>
+        </section>
+      ) : (
+        <Button className="w-full" onClick={() => navigate('/seance')}>
+          Démarrer une séance
+        </Button>
+      )}
+
+      <section className="rounded-3xl bg-neutral-900 p-5">
+        <p className="text-sm uppercase tracking-wide text-neutral-400">Cette semaine</p>
+        <p className="mt-1 text-3xl font-bold">
+          {week} séance{week > 1 ? 's' : ''}
+        </p>
+      </section>
+    </div>
   )
 }
