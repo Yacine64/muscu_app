@@ -1,4 +1,5 @@
 import rawExercises from '../data/exercises.json'
+import { applyDetail, findDetail } from '../lib/exerciseDetails'
 import type { Equipment, Exercise, Program, Settings, TemplateExercise, WorkoutTemplate } from './types'
 
 type RawExercise = { name: string; primaryMuscle: string; secondaryMuscles: string[]; equipment: string[]; assisted?: boolean }
@@ -52,7 +53,9 @@ export const DEFAULT_SETTINGS: Settings = {
 
 /** Construit toutes les données de départ. `newId` est injecté pour pouvoir tester. */
 export function buildSeed(newId: () => string = () => crypto.randomUUID()) {
-  const exercises: Exercise[] = (rawExercises as RawExercise[]).map((r) => ({
+  const exercises: Exercise[] = (rawExercises as RawExercise[]).map((r) =>
+    applyDetail(
+      {
     id: newId(),
     name: r.name,
     primaryMuscle: r.primaryMuscle,
@@ -60,8 +63,11 @@ export function buildSeed(newId: () => string = () => crypto.randomUUID()) {
     equipment: r.equipment as Equipment[],
     isCustom: false,
     archived: false,
-    ...(r.assisted ? { assisted: true } : {}),
-  }))
+        ...(r.assisted ? { assisted: true } : {}),
+      },
+      findDetail(r.name),
+    ),
+  )
 
   const byName = new Map(exercises.map((e) => [e.name, e.id]))
 

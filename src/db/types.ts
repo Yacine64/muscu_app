@@ -8,9 +8,11 @@ export interface Exercise {
   primaryMuscle: string
   secondaryMuscles: string[]
   equipment: Equipment[]
-  instructions?: string // plus tard
-  mediaUrl?: string // plus tard : image, GIF ou vidéo
+  instructions?: string // étapes d'exécution, une par ligne
+  warnings?: string[] // points de vigilance (erreurs à éviter, sécurité)
+  mediaUrl?: string // image, GIF ou vidéo : lien web, ou chemin d'un fichier fourni avec l'app (media/…)
   mediaType?: 'image' | 'gif' | 'video'
+  mediaSource?: string // origine et licence du média
   isCustom: boolean
   archived: boolean
   // Machine d'assistance (ex. dips assistés) : moins de kg = plus dur.

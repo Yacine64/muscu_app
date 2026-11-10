@@ -1,0 +1,359 @@
+[
+  {
+    "name": "Développé couché",
+    "instructions": [
+      "Allonge-toi sur le banc, yeux sous la barre, pieds à plat au sol.",
+      "Saisis la barre un peu plus large que les épaules, omoplates serrées et basses.",
+      "Descends la barre de façon contrôlée jusqu'au bas des pectoraux.",
+      "Pousse la barre vers le haut en expirant jusqu'à bras tendus, sans verrouiller brutalement les coudes."
+    ],
+    "warnings": [
+      "Ne fais pas rebondir la barre sur la poitrine.",
+      "Garde les coudes à environ 45–70° du buste, pas écartés à 90°, pour protéger les épaules.",
+      "Avec une charge lourde, utilise un pareur ou les sécurités du rack."
+    ],
+    "mediaUrl": "media/exercises/Barbell_Bench_Press_-_Medium_Grip.jpg",
+    "mediaType": "image",
+    "mediaSource": "free-exercise-db (github.com/yuhonas/free-exercise-db) – déclaré domaine public (Unlicense)"
+  },
+  {
+    "name": "Développé incliné aux haltères",
+    "instructions": [
+      "Règle le banc entre 30 et 45° et assieds-toi, haltères posés sur les cuisses.",
+      "Allonge-toi en remontant les haltères à hauteur de poitrine, paumes vers l'avant.",
+      "Pousse les haltères vers le haut et légèrement vers l'intérieur en expirant.",
+      "Redescends lentement jusqu'à sentir l'étirement des pectoraux."
+    ],
+    "warnings": [
+      "Un banc trop incliné transforme l'exercice en développé épaules.",
+      "Ne laisse pas les haltères tomber sur les côtés en bas du mouvement.",
+      "Pour finir, ramène les haltères sur les cuisses avant de te relever plutôt que de les lâcher."
+    ],
+    "mediaUrl": "media/exercises/Incline_Dumbbell_Press.jpg",
+    "mediaType": "image",
+    "mediaSource": "free-exercise-db (github.com/yuhonas/free-exercise-db) – déclaré domaine public (Unlicense)"
+  },
+  {
+    "name": "Développé incliné",
+    "instructions": [
+      "Règle le banc entre 30 et 45°, fesses et dos bien en appui.",
+      "Saisis la barre un peu plus large que les épaules et décroche-la bras tendus.",
+      "Descends la barre de façon contrôlée vers le haut de la poitrine.",
+      "Pousse vers le haut en expirant, omoplates serrées contre le banc."
+    ],
+    "warnings": [
+      "Ne décolle pas les fesses du banc pour pousser plus lourd.",
+      "Évite de descendre la barre vers le cou ou vers le ventre.",
+      "Règle les sécurités du rack ou travaille avec un pareur."
+    ],
+    "mediaUrl": "media/exercises/Barbell_Incline_Bench_Press_-_Medium_Grip.jpg",
+    "mediaType": "image",
+    "mediaSource": "free-exercise-db (github.com/yuhonas/free-exercise-db) – déclaré domaine public (Unlicense)"
+  },
+  {
+    "name": "Écartés à la poulie",
+    "instructions": [
+      "Place les poulies en position haute et saisis une poignée dans chaque main.",
+      "Fais un pas en avant, buste légèrement penché, coudes légèrement fléchis.",
+      "Ramène les mains l'une vers l'autre devant toi en arc de cercle en serrant les pectoraux.",
+      "Reviens lentement à la position de départ en contrôlant l'étirement."
+    ],
+    "warnings": [
+      "Garde le même angle de coude tout le long : ce n'est pas un développé.",
+      "N'ouvre pas trop les bras en arrière, l'épaule ne doit pas partir vers l'avant.",
+      "Évite de te balancer ou de tirer avec le dos."
+    ],
+    "mediaUrl": "media/exercises/Cable_Crossover.jpg",
+    "mediaType": "image",
+    "mediaSource": "free-exercise-db (github.com/yuhonas/free-exercise-db) – déclaré domaine public (Unlicense)"
+  },
+  {
+    "name": "Pec deck",
+    "instructions": [
+      "Règle le siège pour que les poignées soient à hauteur de poitrine.",
+      "Dos bien collé au dossier, saisis les poignées coudes légèrement fléchis.",
+      "Rapproche les bras devant toi en contractant les pectoraux.",
+      "Reviens lentement jusqu'à un étirement confortable."
+    ],
+    "warnings": [
+      "Ne laisse pas la charge tirer les bras trop loin en arrière.",
+      "Garde les épaules basses et le dos en appui sur le dossier.",
+      "Évite les mouvements rapides et les à-coups."
+    ],
+    "mediaUrl": "media/exercises/Butterfly.jpg",
+    "mediaType": "image",
+    "mediaSource": "free-exercise-db (github.com/yuhonas/free-exercise-db) – déclaré domaine public (Unlicense)"
+  },
+  {
+    "name": "Dips assistés",
+    "instructions": [
+      "Règle le contrepoids de la machine d'assistance (plus de poids = plus d'aide).",
+      "Place les genoux (ou les pieds) sur l'appui et saisis les barres, bras tendus.",
+      "Descends en fléchissant les coudes jusqu'à environ 90°, buste légèrement penché en avant.",
+      "Remonte en poussant sur les mains jusqu'à bras tendus."
+    ],
+    "warnings": [
+      "Ne descends pas trop bas : une amplitude excessive stresse l'avant des épaules.",
+      "Garde les épaules basses, loin des oreilles.",
+      "Ne verrouille pas brutalement les coudes en haut."
+    ],
+    "mediaUrl": "media/exercises/Dips_-_Chest_Version.jpg",
+    "mediaType": "image",
+    "mediaSource": "free-exercise-db (github.com/yuhonas/free-exercise-db) – déclaré domaine public (Unlicense)"
+  },
+  {
+    "name": "Pompes",
+    "instructions": [
+      "Place les mains au sol un peu plus large que les épaules, corps aligné de la tête aux talons.",
+      "Contracte les abdos et les fessiers.",
+      "Descends la poitrine vers le sol en gardant les coudes à environ 45° du corps.",
+      "Repousse le sol pour revenir bras tendus."
+    ],
+    "warnings": [
+      "Ne laisse pas le bassin s'affaisser ni les fesses monter.",
+      "Évite d'écarter les coudes à 90°.",
+      "Si c'est trop dur, fais-les sur les genoux ou mains surélevées plutôt que de bâcler l'amplitude."
+    ],
+    "mediaUrl": "media/exercises/Pushups.jpg",
+    "mediaType": "image",
+    "mediaSource": "free-exercise-db (github.com/yuhonas/free-exercise-db) – déclaré domaine public (Unlicense)"
+  },
+  {
+    "name": "Développé épaules",
+    "instructions": [
+      "Assieds-toi sur un banc avec dossier vertical, haltères à hauteur d'épaules, paumes vers l'avant.",
+      "Garde le dos en appui et les abdos gainés.",
+      "Pousse les charges au-dessus de la tête en expirant, sans entrechoquer les haltères.",
+      "Redescends lentement jusqu'à hauteur d'oreilles."
+    ],
+    "warnings": [
+      "Ne cambre pas le bas du dos pour pousser.",
+      "Évite de descendre trop bas derrière la tête.",
+      "Commence léger : les épaules sont une articulation fragile."
+    ],
+    "mediaUrl": "media/exercises/Dumbbell_Shoulder_Press.jpg",
+    "mediaType": "image",
+    "mediaSource": "free-exercise-db (github.com/yuhonas/free-exercise-db) – déclaré domaine public (Unlicense)"
+  },
+  {
+    "name": "Élévations latérales",
+    "instructions": [
+      "Debout, haltères le long du corps, buste droit, genoux souples.",
+      "Coudes légèrement fléchis, lève les bras sur les côtés.",
+      "Monte jusqu'à hauteur d'épaules, pas plus haut.",
+      "Redescends lentement sans laisser tomber les charges."
+    ],
+    "warnings": [
+      "Ne te balance pas avec le buste pour lancer les haltères.",
+      "Ne hausse pas les épaules vers les oreilles (trapèzes).",
+      "Une charge trop lourde déplace le travail ailleurs : privilégie le contrôle."
+    ],
+    "mediaUrl": "media/exercises/Side_Lateral_Raise.jpg",
+    "mediaType": "image",
+    "mediaSource": "free-exercise-db (github.com/yuhonas/free-exercise-db) – déclaré domaine public (Unlicense)"
+  },
+  {
+    "name": "Face pull",
+    "instructions": [
+      "Place la poulie à hauteur du visage avec une corde.",
+      "Saisis la corde paumes vers le bas et recule d'un pas, bras tendus.",
+      "Tire la corde vers ton visage en écartant les mains et en sortant les coudes haut.",
+      "Marque une pause en serrant l'arrière des épaules, puis reviens lentement."
+    ],
+    "warnings": [
+      "Ne tire pas avec le dos en te penchant en arrière.",
+      "Garde les coudes à hauteur d'épaules ou plus haut, pas vers le bas.",
+      "C'est un exercice de qualité : charge modérée, mouvement contrôlé."
+    ],
+    "mediaUrl": "media/exercises/Face_Pull.jpg",
+    "mediaType": "image",
+    "mediaSource": "free-exercise-db (github.com/yuhonas/free-exercise-db) – déclaré domaine public (Unlicense)"
+  },
+  {
+    "name": "Extensions triceps à la poulie",
+    "instructions": [
+      "Place une barre ou une corde sur la poulie haute.",
+      "Debout face à la poulie, saisis la poignée, coudes collés au corps.",
+      "Pousse vers le bas en tendant complètement les bras.",
+      "Remonte lentement jusqu'à ce que les avant-bras soient à peu près à l'horizontale."
+    ],
+    "warnings": [
+      "Les coudes ne doivent pas bouger : seuls les avant-bras se déplacent.",
+      "Ne te penche pas sur la barre pour utiliser ton poids.",
+      "Évite de laisser la charge remonter brutalement."
+    ],
+    "mediaUrl": "media/exercises/Triceps_Pushdown.jpg",
+    "mediaType": "image",
+    "mediaSource": "free-exercise-db (github.com/yuhonas/free-exercise-db) – déclaré domaine public (Unlicense)"
+  },
+  {
+    "name": "Tirage vertical prise large",
+    "instructions": [
+      "Règle le boudin pour bloquer les cuisses et saisis la barre en prise large, paumes vers l'avant.",
+      "Buste légèrement incliné en arrière, poitrine sortie.",
+      "Tire la barre vers le haut de la poitrine en abaissant les coudes et en serrant les omoplates.",
+      "Remonte lentement jusqu'à bras tendus."
+    ],
+    "warnings": [
+      "Ne tire pas la barre derrière la nuque.",
+      "Évite de te balancer en arrière pour aider le mouvement.",
+      "Ne laisse pas la barre remonter d'un coup en fin de répétition."
+    ],
+    "mediaUrl": "media/exercises/Wide-Grip_Lat_Pulldown.jpg",
+    "mediaType": "image",
+    "mediaSource": "free-exercise-db (github.com/yuhonas/free-exercise-db) – déclaré domaine public (Unlicense)"
+  },
+  {
+    "name": "Tirage vertical prise serrée",
+    "instructions": [
+      "Installe une poignée serrée (triangle ou barre) et bloque les cuisses sous le boudin.",
+      "Saisis la poignée, bras tendus, buste légèrement incliné en arrière.",
+      "Tire vers le haut de la poitrine en gardant les coudes près du corps.",
+      "Remonte de façon contrôlée en laissant les dorsaux s'étirer."
+    ],
+    "warnings": [
+      "Ne tire pas avec les bras seulement : pense à descendre les coudes.",
+      "Évite d'arrondir le dos ou d'avancer les épaules en bas du mouvement.",
+      "Pas d'élan avec le buste."
+    ],
+    "mediaUrl": "media/exercises/Close-Grip_Front_Lat_Pulldown.jpg",
+    "mediaType": "image",
+    "mediaSource": "free-exercise-db (github.com/yuhonas/free-exercise-db) – déclaré domaine public (Unlicense)"
+  },
+  {
+    "name": "Rowing assis à la poulie",
+    "instructions": [
+      "Assieds-toi, pieds sur les cale-pieds, genoux légèrement fléchis.",
+      "Saisis la poignée, dos droit, buste vertical.",
+      "Tire la poignée vers le nombril en serrant les omoplates.",
+      "Reviens lentement bras tendus sans arrondir le dos."
+    ],
+    "warnings": [
+      "Ne te balance pas d'avant en arrière pour tirer la charge.",
+      "Garde le dos neutre, sans dos rond en phase de retour.",
+      "Ne hausse pas les épaules pendant la traction."
+    ],
+    "mediaUrl": "media/exercises/Seated_Cable_Rows.jpg",
+    "mediaType": "image",
+    "mediaSource": "free-exercise-db (github.com/yuhonas/free-exercise-db) – déclaré domaine public (Unlicense)"
+  },
+  {
+    "name": "Rowing un bras avec haltère",
+    "instructions": [
+      "Pose un genou et la main du même côté sur un banc, dos plat.",
+      "Saisis l'haltère de l'autre main, bras tendu sous l'épaule.",
+      "Tire l'haltère vers la hanche en gardant le coude près du corps.",
+      "Redescends lentement jusqu'à bras tendu."
+    ],
+    "warnings": [
+      "Ne fais pas pivoter le buste pour monter la charge.",
+      "Garde le dos plat, sans arrondir ni creuser.",
+      "Tire vers la hanche, pas vers l'épaule."
+    ],
+    "mediaUrl": "media/exercises/One-Arm_Dumbbell_Row.jpg",
+    "mediaType": "image",
+    "mediaSource": "free-exercise-db (github.com/yuhonas/free-exercise-db) – déclaré domaine public (Unlicense)"
+  },
+  {
+    "name": "Curl biceps aux haltères",
+    "instructions": [
+      "Debout, un haltère dans chaque main, bras tendus, paumes vers l'avant.",
+      "Garde les coudes collés au corps.",
+      "Fléchis les coudes pour monter les haltères vers les épaules en expirant.",
+      "Redescends lentement jusqu'à bras tendus."
+    ],
+    "warnings": [
+      "Ne te balance pas avec le dos pour monter la charge.",
+      "Les coudes ne doivent pas avancer pendant la montée.",
+      "Contrôle la descente plutôt que de laisser tomber les haltères."
+    ],
+    "mediaUrl": "media/exercises/Dumbbell_Bicep_Curl.jpg",
+    "mediaType": "image",
+    "mediaSource": "free-exercise-db (github.com/yuhonas/free-exercise-db) – déclaré domaine public (Unlicense)"
+  },
+  {
+    "name": "Presse à cuisses",
+    "instructions": [
+      "Assieds-toi, dos et fesses bien en appui, pieds à largeur d'épaules sur le plateau.",
+      "Débloque les sécurités et tends les jambes sans verrouiller les genoux.",
+      "Descends le plateau en fléchissant les genoux jusqu'à environ 90°.",
+      "Pousse avec les talons pour remonter."
+    ],
+    "warnings": [
+      "Ne verrouille jamais complètement les genoux en haut.",
+      "Ne descends pas au point que le bas du dos décolle du dossier.",
+      "Les genoux restent dans l'axe des pieds, sans rentrer vers l'intérieur."
+    ],
+    "mediaUrl": "media/exercises/Leg_Press.jpg",
+    "mediaType": "image",
+    "mediaSource": "free-exercise-db (github.com/yuhonas/free-exercise-db) – déclaré domaine public (Unlicense)"
+  },
+  {
+    "name": "Leg curl",
+    "instructions": [
+      "Règle la machine pour que le boudin soit juste au-dessus des talons et les genoux au bord du banc.",
+      "Allonge-toi (ou assieds-toi selon la machine) et tiens les poignées.",
+      "Fléchis les genoux pour ramener les talons vers les fesses.",
+      "Redescends lentement sans laisser la charge retomber."
+    ],
+    "warnings": [
+      "Ne décolle pas les hanches du banc pour aider le mouvement.",
+      "Évite les à-coups : la descente doit être contrôlée.",
+      "Ne tends pas brutalement les genoux en bas du mouvement."
+    ],
+    "mediaUrl": "media/exercises/Lying_Leg_Curls.jpg",
+    "mediaType": "image",
+    "mediaSource": "free-exercise-db (github.com/yuhonas/free-exercise-db) – déclaré domaine public (Unlicense)"
+  },
+  {
+    "name": "Fentes",
+    "instructions": [
+      "Debout, pieds largeur de hanches, haltères le long du corps (ou sans charge).",
+      "Fais un grand pas en avant.",
+      "Descends jusqu'à ce que les deux genoux soient fléchis à environ 90°, genou arrière proche du sol.",
+      "Pousse sur le talon avant pour revenir à la position de départ."
+    ],
+    "warnings": [
+      "Le genou avant reste dans l'axe du pied, sans rentrer vers l'intérieur.",
+      "Garde le buste droit, sans te pencher en avant.",
+      "Un pas trop court surcharge le genou avant."
+    ],
+    "mediaUrl": "media/exercises/Dumbbell_Lunges.jpg",
+    "mediaType": "image",
+    "mediaSource": "free-exercise-db (github.com/yuhonas/free-exercise-db) – déclaré domaine public (Unlicense)"
+  },
+  {
+    "name": "Gainage",
+    "instructions": [
+      "Place les avant-bras au sol, coudes sous les épaules.",
+      "Tends les jambes, appui sur la pointe des pieds.",
+      "Aligne tête, dos, bassin et talons, abdos et fessiers contractés.",
+      "Tiens la position en respirant calmement."
+    ],
+    "warnings": [
+      "Ne laisse pas le bassin s'affaisser (douleur dans le bas du dos).",
+      "Ne lève pas les fesses trop haut.",
+      "Ne bloque pas ta respiration."
+    ],
+    "mediaUrl": "media/exercises/Plank.jpg",
+    "mediaType": "image",
+    "mediaSource": "free-exercise-db (github.com/yuhonas/free-exercise-db) – déclaré domaine public (Unlicense)"
+  },
+  {
+    "name": "Vélo / rameur",
+    "instructions": [
+      "Règle la selle (vélo) ou les cale-pieds (rameur) à ta taille.",
+      "Commence à une intensité faible pendant 1 à 2 minutes.",
+      "Augmente progressivement pour atteindre un effort modéré (essoufflé mais capable de parler).",
+      "Maintiens 5 à 10 minutes avant la séance."
+    ],
+    "warnings": [
+      "L'échauffement n'est pas un sprint : reste à intensité modérée.",
+      "Au vélo, une selle trop basse fatigue les genoux.",
+      "Au rameur, pousse d'abord avec les jambes et garde le dos droit, sans tirer avec le dos rond."
+    ],
+    "mediaUrl": "media/exercises/Bicycling_Stationary.jpg",
+    "mediaType": "image",
+    "mediaSource": "free-exercise-db (github.com/yuhonas/free-exercise-db) – déclaré domaine public (Unlicense)"
+  }
+]

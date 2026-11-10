@@ -8,6 +8,7 @@ import type { Equipment, Exercise } from '../db/types'
 import { useLiveQuery } from '../db/useLiveQuery'
 import { EQUIPMENT_LABELS, EQUIPMENT_LIST } from '../lib/equipment'
 import { allMuscles } from '../lib/exerciseFilter'
+import { lines } from '../lib/exerciseDetails'
 import { normalize } from '../lib/text'
 
 type MediaType = NonNullable<Exercise['mediaType']>
@@ -28,6 +29,7 @@ function Form({ id, all, existing }: { id?: string; all: Exercise[]; existing?: 
   const [newMuscle, setNewMuscle] = useState('')
   const [equipment, setEquipment] = useState<Equipment[]>(existing?.equipment ?? [])
   const [instructions, setInstructions] = useState(existing?.instructions ?? '')
+  const [warnings, setWarnings] = useState((existing?.warnings ?? []).join('\n'))
   const [mediaUrl, setMediaUrl] = useState(existing?.mediaUrl ?? '')
   const [mediaType, setMediaType] = useState<MediaType>(existing?.mediaType ?? 'image')
   const [assisted, setAssisted] = useState(!!existing?.assisted)
@@ -53,8 +55,16 @@ function Form({ id, all, existing }: { id?: string; all: Exercise[]; existing?: 
       isCustom: existing?.isCustom ?? true,
       archived: existing?.archived ?? false,
       ...(assisted ? { assisted: true } : {}),
-      ...(instructions.trim() ? { instructions: instructions.trim() } : {}),
-      ...(mediaUrl.trim() ? { mediaUrl: mediaUrl.trim(), mediaType } : {}),
+      ...(lines(instructions).length ? { instructions: lines(instructions).join('\n') } : {}),
+      ...(lines(warnings).length ? { warnings: lines(warnings) } : {}),
+      ...(mediaUrl.trim()
+        ? {
+            mediaUrl: mediaUrl.trim(),
+            mediaType,
+            // La source n'est gardée que si le média n'a pas changé.
+            ...(existing?.mediaSource && existing.mediaUrl === mediaUrl.trim() ? { mediaSource: existing.mediaSource } : {}),
+          }
+        : {}),
     }
     await db.exercises.put(ex)
     navigate(`/exercices/${ex.id}`, { replace: true })
@@ -145,7 +155,7 @@ function Form({ id, all, existing }: { id?: string; all: Exercise[]; existing?: 
         </div>
 
         <label className="block">
-          <Label>Consignes (facultatif)</Label>
+          <Label>Exécution (facultatif, une étape par ligne)</Label>
           <textarea
             className={`${inputClass} min-h-28 py-3`}
             value={instructions}
@@ -153,11 +163,22 @@ function Form({ id, all, existing }: { id?: string; all: Exercise[]; existing?: 
           />
         </label>
 
+        <label className="block">
+          <Label>Points de vigilance (facultatif, un par ligne)</Label>
+          <textarea
+            className={`${inputClass} min-h-28 py-3`}
+            value={warnings}
+            onChange={(e) => setWarnings(e.target.value)}
+            placeholder="ex. Ne cambre pas le bas du dos"
+          />
+        </label>
+
         <div>
           <Label>Média (facultatif)</Label>
           <input
             className={inputClass}
-            type="url"
+            type="text"
+            inputMode="url"
             value={mediaUrl}
             onChange={(e) => setMediaUrl(e.target.value)}
             placeholder="Lien vers une image, un GIF ou une vidéo"

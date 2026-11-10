@@ -57,6 +57,8 @@ export function parseExerciseImport(
 
     const equipment = Array.isArray(r.equipment) ? r.equipment.filter(isEquipment) : []
     const mediaType = MEDIA_TYPES.find((t) => t === r.mediaType)
+    const instructions = textLines(r.instructions).join('\n')
+    const warnings = textLines(r.warnings)
 
     result.toAdd.push({
       id: newId(),
@@ -66,13 +68,21 @@ export function parseExerciseImport(
         ? r.secondaryMuscles.filter((m): m is string => typeof m === 'string' && m.trim() !== '')
         : [],
       equipment: equipment.length ? equipment : ['autre'],
-      ...(typeof r.instructions === 'string' && r.instructions ? { instructions: r.instructions } : {}),
+      ...(instructions ? { instructions } : {}),
+      ...(warnings.length ? { warnings } : {}),
       ...(typeof r.mediaUrl === 'string' && r.mediaUrl ? { mediaUrl: r.mediaUrl } : {}),
       ...(mediaType ? { mediaType } : {}),
+      ...(typeof r.mediaSource === 'string' && r.mediaSource ? { mediaSource: r.mediaSource } : {}),
       isCustom: true,
       archived: false,
     })
   })
 
   return result
+}
+
+/** Accepte une liste de textes ou un texte (une ligne par élément). */
+function textLines(v: unknown): string[] {
+  const list = Array.isArray(v) ? v : typeof v === 'string' ? v.split('\n') : []
+  return list.filter((x): x is string => typeof x === 'string').map((x) => x.trim()).filter(Boolean)
 }

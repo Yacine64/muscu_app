@@ -43,9 +43,9 @@ npm run lint       # oxlint
 - `src/db/sessions.ts` : démarrer / terminer / abandonner une séance
 - `src/components/ui.tsx` : Chip, Button, IconButton, Label, inputClass (gros éléments tactiles) ; `NumberField` (pavé numérique), `ExercisePicker` (choix dans la banque), `BackButton`
 - `src/db/programs.ts` : opérations programmes/séances (actif unique, dupliquer, supprimer en retirant des programmes)
-- `src/data/exercises.json` : 21 exercices pré-chargés
-- `src/db/` : `types.ts` (modèle), `db.ts` (Dexie, schéma v2 + pré-chargement au `populate`), `seed.ts` (exercices, programme A/B/C, réglages par défaut), `useLiveQuery.ts` (hook maison, pas de dexie-react-hooks)
-- `src/lib/` : logique pure et testée (`text`, `equipment`, `exerciseFilter`, `importExercises`, `programs`, `session`, `timer`, `progress`) ; tests dans `*.test.ts`
+- `src/data/exercises.json` : 21 exercices pré-chargés (nom, muscles, matériel) ; `src/data/exerciseDetails.json` : leurs fiches (consignes, `warnings`, image, source), fournies par l'utilisateur, rapprochées par nom (`lib/exerciseDetails.ts`) ; images dans `public/media/exercises/` (free-exercise-db, Unlicense, réduites à 640 px, mises en cache hors ligne)
+- `src/db/` : `types.ts` (modèle), `db.ts` (Dexie, schéma v3 + pré-chargement au `populate`), `seed.ts` (exercices, programme A/B/C, réglages par défaut), `useLiveQuery.ts` (hook maison, pas de dexie-react-hooks)
+- `src/lib/` : logique pure et testée (`text`, `equipment`, `exerciseFilter`, `importExercises`, `programs`, `session`, `timer`, `progress`, `exerciseDetails`) ; tests dans `*.test.ts`
 - `public/` : icônes PWA, générées depuis `icon-source/icon.svg` avec `rsvg-convert`
 
 ## Fonctionnalités V1 (6 modules + réglages)
@@ -76,11 +76,12 @@ Unités : kg et cm. Ids : UUID. Dates : ISO.
 - **Poulie** : même pas d'augmentation que barre/machine (2,5 kg). Poids du corps : pas de charge suggérée, message « haut de fourchette atteint ».
 - **Machine d'assistance** (`Exercise.assisted`, ex. dips assistés, migration Dexie v2) : moins de kg = plus dur. La suggestion retire de l'assistance (−2,5 kg machine) ; le record et le graphique retiennent l'assistance la plus faible ; pas de graphique de volume.
 - **Poids et mensurations** : dates au format jour `AAAA-MM-JJ`. Moyenne 7 jours = pesées du jour et des 6 jours précédents (chaque pesée compte).
+- **Fiche exercice** (migration Dexie v3) : `instructions` = texte, une étape par ligne (affiché en liste numérotée « Exécution ») ; `warnings: string[]` (« Points de vigilance ») ; `mediaSource` = crédit affiché sous l'image. Un `mediaUrl` sans `http` est un fichier de l'app, résolu avec `import.meta.env.BASE_URL`. La migration ne remplit que les champs vides des exercices non personnalisés. L'import JSON accepte `instructions` et `warnings` en liste ou en texte.
 - **Recherche** : chaque mot tapé doit apparaître dans le nom, dans n'importe quel ordre (« tirage large »).
 
 ## Hors V1 (à ne pas développer, mais ne pas bloquer)
 
-Médias des exercices, import d'une base externe (dédoublonnage par nom), alimentation/déficit calorique (nouvelle version du schéma Dexie), suivi des courses (séance « cardio » durée + distance).
+Import d'une base externe (dédoublonnage par nom), alimentation/déficit calorique (nouvelle version du schéma Dexie), suivi des courses (séance « cardio » durée + distance).
 
 ## Plan de développement
 
