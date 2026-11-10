@@ -7,7 +7,7 @@ import type { BodyWeight, Exercise, Measurement, Program, Settings, WorkoutSessi
  * Pour changer le schéma plus tard (ex. alimentation), ajouter un `this.version(2).stores({...})`
  * sans modifier la version 1 : Dexie migre les données existantes sans rien perdre.
  */
-export const SCHEMA_VERSION = 1
+export const SCHEMA_VERSION = 2
 
 export class MuscuDB extends Dexie {
   exercises!: EntityTable<Exercise, 'id'>
@@ -29,6 +29,18 @@ export class MuscuDB extends Dexie {
       measurements: 'id, date, type',
       settings: 'id',
     })
+
+    // v2 : les dips assistés sont marqués « machine d'assistance » (moins de kg = plus dur).
+    this.version(2)
+      .stores({})
+      .upgrade((tx) =>
+        tx
+          .table('exercises')
+          .toCollection()
+          .modify((e: Exercise) => {
+            if (e.name === 'Dips assistés' && !e.isCustom) e.assisted = true
+          }),
+      )
 
     // Exécuté une seule fois, à la création de la base sur le téléphone.
     this.on('populate', (tx) => {

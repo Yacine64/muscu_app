@@ -30,6 +30,7 @@ function Form({ id, all, existing }: { id?: string; all: Exercise[]; existing?: 
   const [instructions, setInstructions] = useState(existing?.instructions ?? '')
   const [mediaUrl, setMediaUrl] = useState(existing?.mediaUrl ?? '')
   const [mediaType, setMediaType] = useState<MediaType>(existing?.mediaType ?? 'image')
+  const [assisted, setAssisted] = useState(!!existing?.assisted)
 
   const muscles = useMemo(() => {
     const set = new Set([...allMuscles(all), ...secondary])
@@ -51,6 +52,7 @@ function Form({ id, all, existing }: { id?: string; all: Exercise[]; existing?: 
       equipment,
       isCustom: existing?.isCustom ?? true,
       archived: existing?.archived ?? false,
+      ...(assisted ? { assisted: true } : {}),
       ...(instructions.trim() ? { instructions: instructions.trim() } : {}),
       ...(mediaUrl.trim() ? { mediaUrl: mediaUrl.trim(), mediaType } : {}),
     }
@@ -131,6 +133,15 @@ function Form({ id, all, existing }: { id?: string; all: Exercise[]; existing?: 
               </Chip>
             ))}
           </div>
+        </div>
+
+        <div>
+          <Chip active={assisted} onClick={() => setAssisted(!assisted)}>
+            {assisted ? '✓ ' : ''}Machine d’assistance
+          </Chip>
+          <p className="mt-2 text-sm text-neutral-400">
+            Pour les machines où le poids t’aide (ex. dips assistés) : moins de kg = plus dur. L’app proposera de retirer de l’assistance.
+          </p>
         </div>
 
         <label className="block">

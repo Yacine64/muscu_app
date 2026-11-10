@@ -47,6 +47,7 @@ export function suggestProgression(
   target: SessionEntry['target'],
   equipment: Equipment,
   settings: Pick<Settings, 'incrementBarbellKg' | 'incrementDumbbellKg'>,
+  assisted = false,
 ): Suggestion | null {
   if (!previous || !target || previous.sets.length === 0) return null
   if (target.isTimed) {
@@ -58,6 +59,13 @@ export function suggestProgression(
   if (!previous.sets.every((s) => s.reps >= target.repsMax)) return null
   const inc = incrementFor(equipment, settings)
   if (inc === null) return { kind: 'bodyweight' }
+  if (assisted) {
+    // Machine d'assistance : on progresse en retirant de l'aide, à partir de l'aide la plus faible.
+    const lightest = Math.min(...previous.sets.map((s) => s.weightKg))
+    if (lightest <= 0) return { kind: 'bodyweight' }
+    const next = roundKg(Math.max(0, lightest - inc))
+    return { kind: 'weight', weightKg: next, increment: roundKg(next - lightest) }
+  }
   const heaviest = Math.max(...previous.sets.map((s) => s.weightKg))
   return { kind: 'weight', weightKg: roundKg(heaviest + inc), increment: inc }
 }
@@ -153,20 +161,26 @@ export interface RecordBeaten {
 }
 
 /** Records de charge battus pendant cette séance (par exercice + matériel), par rapport aux séances précédentes. */
-export function recordsBeaten(session: WorkoutSession, history: WorkoutSession[]): RecordBeaten[] {
+export function recordsBeaten(
+  session: WorkoutSession,
+  history: WorkoutSession[],
+  isAssisted: (exerciseId: string) => boolean = () => false,
+): RecordBeaten[] {
   const out: RecordBeaten[] = []
   for (const e of session.entries) {
     if (e.target?.isTimed) continue
     const done = e.sets.filter((x) => x.done && x.reps > 0)
     if (!done.length) continue
-    const best = Math.max(...done.map((x) => x.weightKg))
+    const assisted = isAssisted(e.exerciseId)
+    const pick = (l: number[]) => (assisted ? Math.min(...l) : Math.max(...l))
+    const best = pick(done.map((x) => x.weightKg))
     const before = history
       .filter((s) => s.endedAt && s.id !== session.id && s.startedAt < session.startedAt)
       .flatMap((s) => s.entries.filter((x) => x.exerciseId === e.exerciseId && x.equipment === e.equipment))
       .flatMap((x) => x.sets.filter((y) => y.done && y.reps > 0).map((y) => y.weightKg))
     if (!before.length) continue // première fois : pas un record « battu »
-    const previousKg = Math.max(...before)
-    if (best > previousKg) out.push({ exerciseId: e.exerciseId, equipment: e.equipment, weightKg: best, previousKg })
+    const previousKg = pick(before)
+    if (assisted ? best < previousKg : best > previousKg) out.push({ exerciseId: e.exerciseId, equipment: e.equipment, weightKg: best, previousKg })
   }
   return out
 }

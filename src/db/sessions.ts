@@ -30,3 +30,8 @@ export async function finishSession(id: string) {
 export async function abandonSession(id: string) {
   await db.sessions.delete(id)
 }
+
+/** Supprime une séance de l'historique. */
+export async function deleteSession(id: string) {
+  await db.sessions.delete(id)
+}

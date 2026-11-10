@@ -29,6 +29,7 @@ export default function App() {
           <Route path="/exercices/:id" element={<ExerciceFiche />} />
           <Route path="/exercices/:id/modifier" element={<ExerciceForm />} />
           <Route path="/progres" element={<Progres />} />
+          <Route path="/progres/seance/:id" element={<SeanceResume />} />
           <Route path="/reglages" element={<Reglages />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

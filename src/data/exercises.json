@@ -4,7 +4,7 @@
   { "name": "Développé incliné", "primaryMuscle": "Pectoraux", "secondaryMuscles": ["Épaules", "Triceps"], "equipment": ["barre", "machine"] },
   { "name": "Écartés à la poulie", "primaryMuscle": "Pectoraux", "secondaryMuscles": ["Épaules"], "equipment": ["poulie"] },
   { "name": "Pec deck", "primaryMuscle": "Pectoraux", "secondaryMuscles": ["Épaules"], "equipment": ["machine"] },
-  { "name": "Dips assistés", "primaryMuscle": "Pectoraux", "secondaryMuscles": ["Triceps", "Épaules"], "equipment": ["machine"] },
+  { "name": "Dips assistés", "primaryMuscle": "Pectoraux", "secondaryMuscles": ["Triceps", "Épaules"], "equipment": ["machine"], "assisted": true },
   { "name": "Pompes", "primaryMuscle": "Pectoraux", "secondaryMuscles": ["Triceps", "Épaules", "Abdominaux"], "equipment": ["poids_du_corps"] },
   { "name": "Développé épaules", "primaryMuscle": "Épaules", "secondaryMuscles": ["Triceps"], "equipment": ["machine", "halteres"] },
   { "name": "Élévations latérales", "primaryMuscle": "Épaules", "secondaryMuscles": [], "equipment": ["halteres"] },

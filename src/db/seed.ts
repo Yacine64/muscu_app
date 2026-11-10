@@ -1,7 +1,7 @@
 import rawExercises from '../data/exercises.json'
 import type { Equipment, Exercise, Program, Settings, TemplateExercise, WorkoutTemplate } from './types'
 
-type RawExercise = { name: string; primaryMuscle: string; secondaryMuscles: string[]; equipment: string[] }
+type RawExercise = { name: string; primaryMuscle: string; secondaryMuscles: string[]; equipment: string[]; assisted?: boolean }
 
 // [nom de l'exercice, séries, reps min, reps max, repos (s), chronométré ?]
 type Line = [string, number, number, number, number, boolean?]
@@ -60,6 +60,7 @@ export function buildSeed(newId: () => string = () => crypto.randomUUID()) {
     equipment: r.equipment as Equipment[],
     isCustom: false,
     archived: false,
+    ...(r.assisted ? { assisted: true } : {}),
   }))
 
   const byName = new Map(exercises.map((e) => [e.name, e.id]))

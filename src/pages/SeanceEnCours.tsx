@@ -66,7 +66,7 @@ export default function SeanceEnCours({
   const entry = session.entries[index] as SessionEntry | undefined
   const exercise = entry ? byId.get(entry.exerciseId) : undefined
   const previous = entry ? findPrevious(history, entry.exerciseId, entry.equipment, session.id) : undefined
-  const suggestion = entry ? suggestProgression(previous, entry.target, entry.equipment, settings) : null
+  const suggestion = entry ? suggestProgression(previous, entry.target, entry.equipment, settings, !!exercise?.assisted) : null
   const doneCount = session.entries.reduce((n, e) => n + e.sets.filter((s) => s.done).length, 0)
 
   function validate(i: number) {
@@ -307,6 +307,7 @@ function ExerciseCard({
   return (
     <section className="mx-4 mt-3 rounded-3xl bg-neutral-900 p-4">
       <h2 className="text-2xl font-bold leading-tight">{exercise?.name ?? 'Exercice supprimé'}</h2>
+      {exercise?.assisted && <p className="mt-1 text-sm text-amber-300">Machine d’assistance : moins de kg = plus dur</p>}
       <p className="mt-1 text-neutral-400">
         Objectif {formatLine({ ...target, sets: entry.sets.length })} · repos {formatRest(target.restSeconds)}
       </p>
@@ -337,7 +338,9 @@ function ExerciseCard({
           <p className="flex-1 text-lime-200">
             {suggestion.kind === 'weight' && (
               <>
-                ↑ Tu as tout réussi : essaie <strong>{formatKg(suggestion.weightKg)} kg</strong> (+{formatKg(suggestion.increment)})
+                ↑ Tu as tout réussi : essaie <strong>{formatKg(suggestion.weightKg)} kg</strong>
+                {exercise?.assisted ? ' d’assistance' : ''} ({suggestion.increment > 0 ? '+' : '−'}
+                {formatKg(Math.abs(suggestion.increment))})
               </>
             )}
             {suggestion.kind === 'duration' && (
@@ -345,7 +348,9 @@ function ExerciseCard({
                 ↑ Tu as tout réussi : essaie <strong>{suggestion.durationSec} s</strong> (+{suggestion.increment} s)
               </>
             )}
-            {suggestion.kind === 'bodyweight' && <>↑ Haut de fourchette atteint : ajoute des répétitions ou du lest.</>}
+            {suggestion.kind === 'bodyweight' && (
+              <>{exercise?.assisted ? '↑ Plus d’assistance : passe à la version sans machine !' : '↑ Haut de fourchette atteint : ajoute des répétitions ou du lest.'}</>
+            )}
           </p>
           {suggestion.kind !== 'bodyweight' && (
             <button type="button" onClick={applySuggestion} className="min-h-11 shrink-0 rounded-xl bg-lime-400 px-3 font-semibold text-neutral-950">

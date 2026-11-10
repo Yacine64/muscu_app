@@ -13,6 +13,8 @@ export interface Exercise {
   mediaType?: 'image' | 'gif' | 'video'
   isCustom: boolean
   archived: boolean
+  // Machine d'assistance (ex. dips assistés) : moins de kg = plus dur.
+  assisted?: boolean
 }
 
 export interface Program {

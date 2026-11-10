@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import BackButton from '../components/BackButton'
-import PageHeader, { Placeholder } from '../components/PageHeader'
+import ExerciseProgress from '../components/ExerciseProgress'
+import PageHeader from '../components/PageHeader'
 import { Button } from '../components/ui'
 import { db, deleteOrArchiveExercise, isExerciseUsed } from '../db/db'
 import type { Exercise } from '../db/types'
@@ -53,6 +54,7 @@ export default function ExerciceFiche() {
         <div>
           <h1 className="text-2xl font-bold">{ex.name}</h1>
           {ex.archived && <p className="mt-1 text-amber-400">Exercice archivé (masqué de la banque)</p>}
+          {ex.assisted && <p className="mt-1 text-amber-300">Machine d’assistance : moins de kg = plus dur</p>}
         </div>
 
         <dl className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-2 rounded-2xl bg-neutral-900 p-4 text-lg">
@@ -67,7 +69,7 @@ export default function ExerciceFiche() {
         <Media ex={ex} />
         {ex.instructions && <p className="whitespace-pre-line text-lg text-neutral-200">{ex.instructions}</p>}
 
-        <Placeholder>Record et graphique de progression : étape 5.</Placeholder>
+        <ExerciseProgress exercise={ex} />
 
         <div className="grid grid-cols-2 gap-3">
           <Link

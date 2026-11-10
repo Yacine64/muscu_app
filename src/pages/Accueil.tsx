@@ -5,7 +5,8 @@ import { db } from '../db/db'
 import { startSession } from '../db/sessions'
 import { useLiveQuery } from '../db/useLiveQuery'
 import { formatLine, formatRest } from '../lib/programs'
-import { nextTemplateId, sessionsThisWeek } from '../lib/session'
+import { currentAverage7, latest, toDay } from '../lib/progress'
+import { formatKg, nextTemplateId, sessionsThisWeek } from '../lib/session'
 
 export default function Accueil() {
   return (
@@ -33,20 +34,24 @@ export default function Accueil() {
 function HomeContent() {
   const navigate = useNavigate()
   const data = useLiveQuery(async () => {
-    const [sessions, templates, programs, exercises] = await Promise.all([
+    const [sessions, templates, programs, exercises, weights] = await Promise.all([
       db.sessions.toArray(),
       db.templates.toArray(),
       db.programs.toArray(),
       db.exercises.toArray(),
+      db.bodyWeights.toArray(),
     ])
-    return { sessions, templates, programs, exercises }
+    return { sessions, templates, programs, exercises, weights }
   })
   if (!data) return null
 
   const active = data.sessions.find((s) => !s.endedAt)
   const program = data.programs.find((p) => p.isActive)
   const next = data.templates.find((t) => t.id === nextTemplateId(program, data.sessions))
+  const today = toDay(new Date())
   const week = sessionsThisWeek(data.sessions, new Date())
+  const lastWeight = latest(data.weights)
+  const avg = currentAverage7(data.weights, today)
   const name = (id: string) => data.exercises.find((e) => e.id === id)?.name ?? '—'
 
   return (
@@ -92,12 +97,19 @@ function HomeContent() {
         </Button>
       )}
 
-      <section className="rounded-3xl bg-neutral-900 p-5">
-        <p className="text-sm uppercase tracking-wide text-neutral-400">Cette semaine</p>
-        <p className="mt-1 text-3xl font-bold">
-          {week} séance{week > 1 ? 's' : ''}
-        </p>
-      </section>
+      <div className="grid grid-cols-2 gap-3">
+        <Link to="/progres?vue=historique" className="rounded-3xl bg-neutral-900 p-4 active:bg-neutral-800">
+          <p className="text-sm uppercase tracking-wide text-neutral-400">Cette semaine</p>
+          <p className="mt-1 text-3xl font-bold">
+            {week} séance{week > 1 ? 's' : ''}
+          </p>
+        </Link>
+        <Link to="/progres?vue=corps" className="rounded-3xl bg-neutral-900 p-4 active:bg-neutral-800">
+          <p className="text-sm uppercase tracking-wide text-neutral-400">Poids</p>
+          <p className="mt-1 text-3xl font-bold">{lastWeight ? `${formatKg(lastWeight.weightKg)} kg` : '—'}</p>
+          <p className="text-sm text-neutral-400">{avg !== null ? `moy. 7 j : ${formatKg(avg)} kg` : lastWeight ? '' : 'Ajouter une pesée ›'}</p>
+        </Link>
+      </div>
     </div>
   )
 }

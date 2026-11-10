@@ -44,6 +44,8 @@ export default defineConfig({
       },
     }),
   ],
+  // Recharts alourdit le bundle ; tout est mis en cache hors ligne, donc pas de découpage nécessaire.
+  build: { chunkSizeWarningLimit: 1200 },
   test: {
     environment: 'node',
   },

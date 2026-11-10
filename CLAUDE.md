@@ -38,13 +38,14 @@ npm run lint       # oxlint
 - `src/pages/Exercices.tsx` (liste, filtres gardés dans l'URL), `ExerciceFiche.tsx`, `ExerciceForm.tsx`
 - `src/pages/Programmes.tsx` (liste), `ProgrammeEdit.tsx` (`/programmes/:id`), `SeanceModele.tsx` (`/programmes/seance/:id`, enregistrement à chaque modification)
 - `src/pages/Seance.tsx` (démarrage ou séance en cours), `SeanceEnCours.tsx` (saisie, sauvegarde continue, Wake Lock), `SeanceResume.tsx` (`/seance/resume/:id`) ; `Accueil.tsx` (prochaine séance, reprise, semaine)
+- `src/pages/Progres.tsx` (`?vue=corps|exercices|historique` : poids + moyenne 7 j, mensurations, liste des exercices, historique) ; détail d'une séance passée = `SeanceResume` sur `/progres/seance/:id` (avec suppression) ; `components/TimeChart.tsx` (Recharts, axe X en dates réelles, un seul axe Y) ; `components/ExerciseProgress.tsx` (record, graphiques charge et volume, historique, par matériel) affiché dans la fiche exercice
 - `src/lib/restTimer.ts` : minuteur global (heure de fin dans localStorage, vibration, bip WebAudio, notification si app en arrière-plan) ; `RestTimerBanner` au-dessus des onglets ; `useWakeLock.ts`
 - `src/db/sessions.ts` : démarrer / terminer / abandonner une séance
 - `src/components/ui.tsx` : Chip, Button, IconButton, Label, inputClass (gros éléments tactiles) ; `NumberField` (pavé numérique), `ExercisePicker` (choix dans la banque), `BackButton`
 - `src/db/programs.ts` : opérations programmes/séances (actif unique, dupliquer, supprimer en retirant des programmes)
 - `src/data/exercises.json` : 21 exercices pré-chargés
-- `src/db/` : `types.ts` (modèle), `db.ts` (Dexie v1 + pré-chargement au `populate`), `seed.ts` (exercices, programme A/B/C, réglages par défaut), `useLiveQuery.ts` (hook maison, pas de dexie-react-hooks)
-- `src/lib/` : logique pure et testée (`text`, `equipment`, `exerciseFilter`, `importExercises`, `programs`, `session`, `timer`) ; tests dans `*.test.ts`
+- `src/db/` : `types.ts` (modèle), `db.ts` (Dexie, schéma v2 + pré-chargement au `populate`), `seed.ts` (exercices, programme A/B/C, réglages par défaut), `useLiveQuery.ts` (hook maison, pas de dexie-react-hooks)
+- `src/lib/` : logique pure et testée (`text`, `equipment`, `exerciseFilter`, `importExercises`, `programs`, `session`, `timer`, `progress`) ; tests dans `*.test.ts`
 - `public/` : icônes PWA, générées depuis `icon-source/icon.svg` avec `rsvg-convert`
 
 ## Fonctionnalités V1 (6 modules + réglages)
@@ -73,6 +74,8 @@ Unités : kg et cm. Ids : UUID. Dates : ISO.
 - **Programmes** : un seul programme actif. Supprimer un programme garde ses séances (« Séances hors programme ») ; supprimer une séance modèle la retire des programmes mais garde l'historique. Réordonner avec des boutons ↑ ↓ (pas de glisser-déposer, pour ne pas ajouter de bibliothèque).
 - **Séance en cours** : `entries[].target` (fourchette, repos, isTimed) est copié depuis le modèle au démarrage ; `templateName` est gardé dans la séance. À la fin, seules les séries validées sont conservées. Valider une série recopie charge/reps dans les séries suivantes encore à 0 kg. Remplacer un exercice après des séries faites garde ces séries sur l'exercice d'origine. Changer de matériel re-remplit les séries non validées avec l'historique de ce matériel.
 - **Poulie** : même pas d'augmentation que barre/machine (2,5 kg). Poids du corps : pas de charge suggérée, message « haut de fourchette atteint ».
+- **Machine d'assistance** (`Exercise.assisted`, ex. dips assistés, migration Dexie v2) : moins de kg = plus dur. La suggestion retire de l'assistance (−2,5 kg machine) ; le record et le graphique retiennent l'assistance la plus faible ; pas de graphique de volume.
+- **Poids et mensurations** : dates au format jour `AAAA-MM-JJ`. Moyenne 7 jours = pesées du jour et des 6 jours précédents (chaque pesée compte).
 - **Recherche** : chaque mot tapé doit apparaître dans le nom, dans n'importe quel ordre (« tirage large »).
 
 ## Hors V1 (à ne pas développer, mais ne pas bloquer)
@@ -85,7 +88,7 @@ Médias des exercices, import d'une base externe (dédoublonnage par nom), alime
 2. ✅ **Données et banque d'exercices** — fini quand « Dos + Poulie » affiche les 2 tirages verticaux et le rowing assis, et qu'un exercice ajouté reste après redémarrage.
 3. ✅ **Programmes** — fini quand on peut modifier la Séance A (ajouter, réordonner, supprimer) et retrouver les changements.
 4. ✅ **Séance en cours et minuteur** — fini quand une séance complète se fait sans connexion et reprend après fermeture.
-5. **Progression et corps** — fini quand, après 3 séances, le graphique d'un exercice montre 3 points corrects.
+5. ✅ **Progression et corps** — fini quand, après 3 séances, le graphique d'un exercice montre 3 points corrects.
 6. **Sauvegarde** — fini quand un export importé sur un autre navigateur restitue tout à l'identique.
 
 ## Règles de travail
