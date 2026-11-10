@@ -3,6 +3,8 @@ import BottomNav from './components/BottomNav'
 import Accueil from './pages/Accueil'
 import Seance from './pages/Seance'
 import Programmes from './pages/Programmes'
+import ProgrammeEdit from './pages/ProgrammeEdit'
+import SeanceModele from './pages/SeanceModele'
 import Exercices from './pages/Exercices'
 import ExerciceFiche from './pages/ExerciceFiche'
 import ExerciceForm from './pages/ExerciceForm'
@@ -17,6 +19,8 @@ export default function App() {
           <Route path="/" element={<Accueil />} />
           <Route path="/seance" element={<Seance />} />
           <Route path="/programmes" element={<Programmes />} />
+          <Route path="/programmes/:id" element={<ProgrammeEdit />} />
+          <Route path="/programmes/seance/:id" element={<SeanceModele />} />
           <Route path="/exercices" element={<Exercices />} />
           <Route path="/exercices/nouveau" element={<ExerciceForm />} />
           <Route path="/exercices/:id" element={<ExerciceFiche />} />

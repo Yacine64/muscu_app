@@ -1,20 +1,12 @@
 import { useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
+import BackButton from '../components/BackButton'
 import PageHeader, { Placeholder } from '../components/PageHeader'
 import { Button } from '../components/ui'
 import { db, deleteOrArchiveExercise, isExerciseUsed } from '../db/db'
 import type { Exercise } from '../db/types'
 import { useLiveQuery } from '../db/useLiveQuery'
 import { equipmentLabel } from '../lib/equipment'
-
-export function BackButton() {
-  const navigate = useNavigate()
-  return (
-    <button type="button" onClick={() => navigate(-1)} className="rounded-full px-4 py-3 text-lg text-lime-400 active:bg-neutral-800">
-      ‹ Retour
-    </button>
-  )
-}
 
 function Media({ ex }: { ex: Exercise }) {
   if (!ex.mediaUrl) return null

@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import BackButton from '../components/BackButton'
 import PageHeader from '../components/PageHeader'
 import { Button, Chip, Label, inputClass } from '../components/ui'
 import { db } from '../db/db'
@@ -8,7 +9,6 @@ import { useLiveQuery } from '../db/useLiveQuery'
 import { EQUIPMENT_LABELS, EQUIPMENT_LIST } from '../lib/equipment'
 import { allMuscles } from '../lib/exerciseFilter'
 import { normalize } from '../lib/text'
-import { BackButton } from './ExerciceFiche'
 
 type MediaType = NonNullable<Exercise['mediaType']>
 
