@@ -29,7 +29,7 @@ npm run test:watch # tests en continu
 npm run lint       # oxlint
 ```
 
-`BASE_PATH` (ex. `/app-muscu/`) fixe le chemin de base du build ; le workflow le règle sur le nom du dépôt. Par défaut `/`.
+`BASE_PATH` (ex. `/muscu_app/`) fixe le chemin de base du build ; le workflow le règle sur le nom du dépôt. Par défaut `/`.
 
 ## Organisation
 
@@ -53,6 +53,12 @@ Unités : kg et cm. Ids : UUID. Dates : ISO.
 ## Modèle de données (Dexie, 7 tables)
 
 `exercises`, `programs`, `templates` (WorkoutTemplate), `sessions` (WorkoutSession, `endedAt` vide = en cours), `bodyWeights`, `measurements`, `settings` (ligne unique `id: 'settings'`). Les interfaces TypeScript exactes sont dans le cahier des charges (section « Modèle de données ») ; `isTimed` sur un exercice de séance = durée au lieu de reps (gainage).
+
+## Décisions de l'utilisateur (précisions au cahier des charges)
+
+- **Matériel multiple** (ex. « Barre ou machine », « Machine ou haltères ») : le matériel est choisi pendant la séance, **machine par défaut** si elle fait partie des choix. Il faut donc enregistrer le matériel utilisé dans chaque entrée de séance (`entries[].equipment`). La suggestion d'augmentation suit le matériel choisi (+2,5 kg machine/barre, +1 kg haltères). **Valeurs précédentes, historique, graphiques et records sont séparés par couple exercice + matériel.**
+- **Séance C** : un seul exercice « Dips assistés » ; les pompes sont un remplacement possible pendant la séance.
+- **Exercices chronométrés** (`isTimed`, ex. gainage 3×30–45 s) : `repsMin`/`repsMax` contiennent la fourchette en secondes. Si toutes les séries ont atteint le haut de la fourchette la fois précédente, suggérer **+5 s**.
 
 ## Hors V1 (à ne pas développer, mais ne pas bloquer)
 
