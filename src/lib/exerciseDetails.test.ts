@@ -6,14 +6,15 @@ import { parseExerciseImport } from './importExercises'
 
 const seed = buildSeed(() => 'id')
 // Liste des images présentes dans public/ (fonction de Vite, aucun fichier n'est chargé).
-const images = import.meta.glob('../../public/media/exercises/*.jpg')
+const images = import.meta.glob('../../public/media/exercises/*/*.jpg')
 
 describe('fiches des exercices', () => {
   it('chacun des 21 exercices de départ a ses consignes, ses points de vigilance et son image', () => {
     for (const e of seed.exercises) {
       expect(lines(e.instructions).length, e.name).toBeGreaterThan(0)
       expect(e.warnings?.length, e.name).toBeGreaterThan(0)
-      expect(e.mediaUrl, e.name).toMatch(/^media\/exercises\/.+\.jpg$/)
+      expect(e.mediaUrl, e.name).toMatch(/^media\/exercises\/[^/]+\/0\.jpg$/)
+      expect(e.mediaEndUrl, e.name).toMatch(/^media\/exercises\/[^/]+\/1\.jpg$/)
       expect(e.mediaSource, e.name).toContain('free-exercise-db')
     }
   })
@@ -22,6 +23,7 @@ describe('fiches des exercices', () => {
     for (const d of EXERCISE_DETAILS) {
       expect(seed.exercises.some((e) => findDetail(e.name) === d), d.name).toBe(true)
       expect(Object.keys(images), d.mediaUrl).toContain(`../../public/${d.mediaUrl}`)
+      expect(Object.keys(images), d.mediaEndUrl).toContain(`../../public/${d.mediaEndUrl}`)
     }
   })
 
@@ -41,7 +43,20 @@ describe('fiches des exercices', () => {
     expect(out.instructions).toBe('Ma consigne')
     expect(out.mediaUrl).toBe('https://exemple.fr/moi.gif')
     expect(out.mediaSource).toBeUndefined()
+    expect(out.mediaEndUrl).toBeUndefined() // photo perso : pas de photo de fin d'une autre source
     expect(out.warnings).toEqual(findDetail('Pompes')!.warnings) // champ vide : rempli
+  })
+
+  it('met à jour l’ancien emplacement d’image (v3) et ajoute la photo de fin', () => {
+    const d = findDetail('Gainage (planche)')!
+    const ex: Exercise = {
+      id: '1', name: 'Gainage (planche)', primaryMuscle: 'Abdominaux', secondaryMuscles: [], equipment: ['poids_du_corps'],
+      isCustom: false, archived: false, mediaUrl: 'media/exercises/Plank.jpg', mediaType: 'image', instructions: 'déjà là', warnings: ['déjà là'],
+    }
+    const out = applyDetail(ex, d)
+    expect(out.mediaUrl).toBe('media/exercises/Plank/0.jpg')
+    expect(out.mediaEndUrl).toBe('media/exercises/Plank/1.jpg')
+    expect(out.warnings).toEqual(['déjà là'])
   })
 
   it('résout l’adresse des images selon l’adresse de l’app', () => {
@@ -55,13 +70,13 @@ describe('import JSON avec consignes et points de vigilance', () => {
   it('accepte des listes (format du fichier fourni) ou du texte', () => {
     const r = parseExerciseImport(
       JSON.stringify([
-        { name: 'Hip thrust', instructions: ['Étape 1', ' Étape 2 '], warnings: ['Attention 1', ''], mediaSource: 'Moi' },
+        { name: 'Hip thrust', instructions: ['Étape 1', ' Étape 2 '], warnings: ['Attention 1', ''], mediaSource: 'Moi', mediaUrl: 'a/0.jpg', mediaEndUrl: 'a/1.jpg' },
         { name: 'Soulevé de terre', instructions: 'A\nB', warnings: 'Dos droit' },
       ]),
       [],
       () => 'x',
     )
-    expect(r.toAdd[0]).toMatchObject({ instructions: 'Étape 1\nÉtape 2', warnings: ['Attention 1'], mediaSource: 'Moi' })
+    expect(r.toAdd[0]).toMatchObject({ instructions: 'Étape 1\nÉtape 2', warnings: ['Attention 1'], mediaSource: 'Moi', mediaEndUrl: 'a/1.jpg' })
     expect(r.toAdd[1]).toMatchObject({ instructions: 'A\nB', warnings: ['Dos droit'] })
   })
 })

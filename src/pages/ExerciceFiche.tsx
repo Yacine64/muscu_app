@@ -1,74 +1,13 @@
 import { useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import BackButton from '../components/BackButton'
+import { ExerciseMedia, ExerciseSteps } from '../components/ExerciseGuide'
 import ExerciseProgress from '../components/ExerciseProgress'
 import PageHeader from '../components/PageHeader'
 import { Button } from '../components/ui'
 import { db, deleteOrArchiveExercise, isExerciseUsed } from '../db/db'
-import type { Exercise } from '../db/types'
 import { useLiveQuery } from '../db/useLiveQuery'
 import { equipmentLabel } from '../lib/equipment'
-import { lines, resolveMediaUrl } from '../lib/exerciseDetails'
-
-function Media({ ex }: { ex: Exercise }) {
-  if (!ex.mediaUrl) return null
-  const url = resolveMediaUrl(ex.mediaUrl, import.meta.env.BASE_URL)
-  let media
-  if (ex.mediaType === 'video') {
-    media = /\.(mp4|webm|ogg)(\?|$)/i.test(url) ? (
-      <video src={url} controls className="w-full rounded-2xl" />
-    ) : (
-      <a href={url} target="_blank" rel="noreferrer" className="text-lime-400 underline">
-        Voir la vidéo
-      </a>
-    )
-  } else {
-    media = <img src={url} alt={ex.name} loading="lazy" className="w-full rounded-2xl bg-neutral-900" />
-  }
-  return (
-    <figure>
-      {media}
-      {ex.mediaSource && <figcaption className="mt-1 text-xs text-neutral-500">Image : {ex.mediaSource}</figcaption>}
-    </figure>
-  )
-}
-
-/** Consignes d'exécution (numérotées) et points de vigilance. */
-function Guide({ ex }: { ex: Exercise }) {
-  const steps = lines(ex.instructions)
-  const warnings = ex.warnings ?? []
-  if (!steps.length && !warnings.length) return null
-  return (
-    <div className="space-y-4">
-      {steps.length > 0 && (
-        <section className="rounded-2xl bg-neutral-900 p-4">
-          <h2 className="mb-3 text-lg font-bold">Exécution</h2>
-          <ol className="space-y-3">
-            {steps.map((step, i) => (
-              <li key={i} className="flex gap-3 text-lg leading-snug text-neutral-200">
-                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-neutral-700 text-base font-bold">{i + 1}</span>
-                <span>{step}</span>
-              </li>
-            ))}
-          </ol>
-        </section>
-      )}
-      {warnings.length > 0 && (
-        <section className="rounded-2xl border border-amber-700/70 bg-amber-950/30 p-4">
-          <h2 className="mb-3 text-lg font-bold text-amber-200">⚠ Points de vigilance</h2>
-          <ul className="space-y-3">
-            {warnings.map((w, i) => (
-              <li key={i} className="flex gap-3 text-lg leading-snug text-neutral-100">
-                <span className="text-amber-400" aria-hidden="true">•</span>
-                <span>{w}</span>
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
-    </div>
-  )
-}
 
 export default function ExerciceFiche() {
   const { id = '' } = useParams()
@@ -113,8 +52,8 @@ export default function ExerciceFiche() {
           <dd>{equipmentLabel(ex.equipment)}</dd>
         </dl>
 
-        <Media ex={ex} />
-        <Guide ex={ex} />
+        <ExerciseMedia ex={ex} />
+        <ExerciseSteps ex={ex} />
 
         <ExerciseProgress exercise={ex} />
 

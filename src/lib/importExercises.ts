@@ -72,6 +72,7 @@ export function parseExerciseImport(
       ...(warnings.length ? { warnings } : {}),
       ...(typeof r.mediaUrl === 'string' && r.mediaUrl ? { mediaUrl: r.mediaUrl } : {}),
       ...(mediaType ? { mediaType } : {}),
+      ...(typeof r.mediaEndUrl === 'string' && r.mediaEndUrl ? { mediaEndUrl: r.mediaEndUrl } : {}),
       ...(typeof r.mediaSource === 'string' && r.mediaSource ? { mediaSource: r.mediaSource } : {}),
       isCustom: true,
       archived: false,

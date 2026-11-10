@@ -32,6 +32,7 @@ function Form({ id, all, existing }: { id?: string; all: Exercise[]; existing?: 
   const [warnings, setWarnings] = useState((existing?.warnings ?? []).join('\n'))
   const [mediaUrl, setMediaUrl] = useState(existing?.mediaUrl ?? '')
   const [mediaType, setMediaType] = useState<MediaType>(existing?.mediaType ?? 'image')
+  const [mediaEndUrl, setMediaEndUrl] = useState(existing?.mediaEndUrl ?? '')
   const [assisted, setAssisted] = useState(!!existing?.assisted)
 
   const muscles = useMemo(() => {
@@ -61,6 +62,7 @@ function Form({ id, all, existing }: { id?: string; all: Exercise[]; existing?: 
         ? {
             mediaUrl: mediaUrl.trim(),
             mediaType,
+            ...(mediaType !== 'video' && mediaEndUrl.trim() ? { mediaEndUrl: mediaEndUrl.trim() } : {}),
             // La source n'est gardée que si le média n'a pas changé.
             ...(existing?.mediaSource && existing.mediaUrl === mediaUrl.trim() ? { mediaSource: existing.mediaSource } : {}),
           }
@@ -181,7 +183,7 @@ function Form({ id, all, existing }: { id?: string; all: Exercise[]; existing?: 
             inputMode="url"
             value={mediaUrl}
             onChange={(e) => setMediaUrl(e.target.value)}
-            placeholder="Lien vers une image, un GIF ou une vidéo"
+            placeholder="Image de départ, GIF ou vidéo (lien)"
           />
           {mediaUrl.trim() && (
             <div className="mt-2 flex gap-2">
@@ -191,6 +193,17 @@ function Form({ id, all, existing }: { id?: string; all: Exercise[]; existing?: 
                 </Chip>
               ))}
             </div>
+          )}
+          {mediaUrl.trim() && mediaType !== 'video' && (
+            <input
+              className={`${inputClass} mt-2`}
+              type="text"
+              inputMode="url"
+              value={mediaEndUrl}
+              onChange={(e) => setMediaEndUrl(e.target.value)}
+              placeholder="Image de fin de mouvement (facultatif)"
+              aria-label="Image de fin de mouvement"
+            />
           )}
         </div>
 

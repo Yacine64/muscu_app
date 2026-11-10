@@ -12,6 +12,7 @@ export interface Exercise {
   warnings?: string[] // points de vigilance (erreurs à éviter, sécurité)
   mediaUrl?: string // image, GIF ou vidéo : lien web, ou chemin d'un fichier fourni avec l'app (media/…)
   mediaType?: 'image' | 'gif' | 'video'
+  mediaEndUrl?: string // 2e image : position finale (mediaUrl = position de départ)
   mediaSource?: string // origine et licence du média
   isCustom: boolean
   archived: boolean

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { ExerciseGuideToggle } from '../components/ExerciseGuide'
 import ExercisePicker from '../components/ExercisePicker'
 import NumberField from '../components/NumberField'
 import { Button, Chip } from '../components/ui'
@@ -308,6 +309,7 @@ function ExerciseCard({
     <section className="mx-4 mt-3 rounded-3xl bg-neutral-900 p-4">
       <h2 className="text-2xl font-bold leading-tight">{exercise?.name ?? 'Exercice supprimé'}</h2>
       {exercise?.assisted && <p className="mt-1 text-sm text-amber-300">Machine d’assistance : moins de kg = plus dur</p>}
+      {exercise && <ExerciseGuideToggle ex={exercise} />}
       <p className="mt-1 text-neutral-400">
         Objectif {formatLine({ ...target, sets: entry.sets.length })} · repos {formatRest(target.restSeconds)}
       </p>

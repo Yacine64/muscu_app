@@ -8,7 +8,7 @@ import type { BodyWeight, Exercise, Measurement, Program, Settings, WorkoutSessi
  * Pour changer le schéma plus tard (ex. alimentation), ajouter un `this.version(2).stores({...})`
  * sans modifier la version 1 : Dexie migre les données existantes sans rien perdre.
  */
-export const SCHEMA_VERSION = 3
+export const SCHEMA_VERSION = 4
 
 export class MuscuDB extends Dexie {
   exercises!: EntityTable<Exercise, 'id'>
@@ -46,6 +46,19 @@ export class MuscuDB extends Dexie {
     // v3 : consignes, points de vigilance (warnings) et images des exercices de départ.
     // Seuls les champs vides sont remplis : rien de ce qui a été saisi à la main n'est écrasé.
     this.version(3)
+      .stores({})
+      .upgrade((tx) =>
+        tx
+          .table('exercises')
+          .toCollection()
+          .modify((e: Exercise) => {
+            if (e.isCustom) return
+            Object.assign(e, applyDetail(e, findDetail(e.name)))
+          }),
+      )
+
+    // v4 : deux photos par exercice (départ / fin), rangées dans media/exercises/<nom>/0.jpg et 1.jpg.
+    this.version(4)
       .stores({})
       .upgrade((tx) =>
         tx
