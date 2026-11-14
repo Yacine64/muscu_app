@@ -44,9 +44,9 @@ npm run lint       # oxlint
 - `src/db/sessions.ts` : démarrer / terminer / abandonner une séance
 - `src/components/ui.tsx` : Chip, Button, IconButton, Label, inputClass (gros éléments tactiles) ; `NumberField` (pavé numérique), `ExercisePicker` (choix dans la banque), `BackButton`
 - `src/db/programs.ts` : opérations programmes/séances (actif unique, dupliquer, supprimer en retirant des programmes)
-- `src/data/exercises.json` : 21 exercices pré-chargés (nom, muscles, matériel) ; `src/data/exerciseDetails.json` : leurs fiches (consignes, `warnings`, image, source), fournies par l'utilisateur, rapprochées par nom (`lib/exerciseDetails.ts`) ; images dans `public/media/exercises/<nom>/0.jpg` (départ) et `1.jpg` (fin) (free-exercise-db, Unlicense, réduites à 640 px, mises en cache hors ligne)
-- `src/db/` : `types.ts` (modèle), `db.ts` (Dexie, schéma v4 + pré-chargement au `populate`), `seed.ts` (exercices, programme A/B/C, réglages par défaut), `useLiveQuery.ts` (hook maison, pas de dexie-react-hooks)
-- `src/lib/` : logique pure et testée (`text`, `equipment`, `exerciseFilter`, `importExercises`, `programs`, `session`, `timer`, `progress`, `exerciseDetails`) ; tests dans `*.test.ts`
+- `src/data/exercises.json` : 31 exercices pré-chargés (nom, muscles, matériel) ; `src/data/exerciseDetails.json` : leurs fiches (consignes, `warnings`, image, source), fournies par l'utilisateur, rapprochées par nom (`lib/exerciseDetails.ts`) ; images dans `public/media/exercises/<nom>/0.jpg` (départ) et `1.jpg` (fin) (free-exercise-db, Unlicense, réduites à 640 px, mises en cache hors ligne)
+- `src/db/` : `types.ts` (modèle), `db.ts` (Dexie, schéma v5 + pré-chargement au `populate`), `seed.ts` (exercices, programme A/B/C, réglages par défaut), `useLiveQuery.ts` (hook maison, pas de dexie-react-hooks)
+- `src/lib/` : logique pure et testée (`text`, `equipment`, `exerciseFilter`, `importExercises`, `programs`, `session`, `timer`, `progress`, `exerciseDetails`, `migrations`) ; tests dans `*.test.ts`
 - `public/` : icônes PWA, générées depuis `icon-source/icon.svg` avec `rsvg-convert`
 
 ## Fonctionnalités V1 (6 modules + réglages)
@@ -78,6 +78,9 @@ Unités : kg et cm. Ids : UUID. Dates : ISO.
 - **Machine d'assistance** (`Exercise.assisted`, ex. dips assistés, migration Dexie v2) : moins de kg = plus dur. La suggestion retire de l'assistance (−2,5 kg machine) ; le record et le graphique retiennent l'assistance la plus faible ; pas de graphique de volume.
 - **Poids et mensurations** : dates au format jour `AAAA-MM-JJ`. Moyenne 7 jours = pesées du jour et des 6 jours précédents (chaque pesée compte).
 - **Fiche exercice** (migration Dexie v3) : `instructions` = texte, une étape par ligne (affiché en liste numérotée « Exécution ») ; `warnings: string[]` (« Points de vigilance ») ; `mediaSource` = crédit affiché sous l'image ; `mediaEndUrl` = 2e photo, position finale (`mediaUrl` = départ ; migration v4 : déplace les anciennes images et ajoute la photo de fin si la photo de départ est celle de la fiche). En séance, le tout est dans un menu déroulant fermé par défaut. Un `mediaUrl` sans `http` est un fichier de l'app, résolu avec `import.meta.env.BASE_URL`. La migration ne remplit que les champs vides des exercices non personnalisés. L'import JSON accepte `instructions` et `warnings` en liste ou en texte.
+- **Corrections du 14/11** (migration v5, `lib/migrations.ts`, ne touche que ce qui est resté d'origine) : 10 exercices ajoutés (Leg curl assis, Hip thrust, Leg extension, Adducteurs, Abducteurs, Hyperextensions, Tractions assistées [assistance], Oiseau à la machine, Rameur, SkiErg [sans photo]) ; Développé couché : barre, machine ou haltères ; Séance B : Leg curl → Leg curl assis ; Séance C : Développé incliné → Développé incliné aux haltères (4 × 8–10, 2 min ; aussi en A en 3 × 10–12, historique commun).
+- **Par bras** (`perSide` sur la ligne de séance modèle, copié dans `entries[].target`) : affiché « 10 / bras », charge = un haltère, **volume × 2** (aussi pour les séances passées de rowing un bras).
+- **Remplacements proposés** (`alternativeIds` sur la ligne, copié dans la séance) : bouton « Remplacer par : … » tant qu'aucune série n'est validée. Face pull → Oiseau à la machine ; Dips assistés → Pompes. Le remplaçant garde l'objectif mais pas « par bras », et propose de revenir à l'exercice d'origine.
 - **Recherche** : chaque mot tapé doit apparaître dans le nom, dans n'importe quel ordre (« tirage large »).
 
 ## Hors V1 (à ne pas développer, mais ne pas bloquer)

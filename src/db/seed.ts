@@ -5,7 +5,8 @@ import type { Equipment, Exercise, Program, Settings, TemplateExercise, WorkoutT
 type RawExercise = { name: string; primaryMuscle: string; secondaryMuscles: string[]; equipment: string[]; assisted?: boolean }
 
 // [nom de l'exercice, séries, reps min, reps max, repos (s), chronométré ?]
-type Line = [string, number, number, number, number, boolean?]
+type LineOptions = { timed?: boolean; perSide?: boolean; alternatives?: string[] }
+type Line = [string, number, number, number, number, LineOptions?]
 
 const PROGRAM: { name: string; lines: Line[] }[] = [
   {
@@ -24,21 +25,21 @@ const PROGRAM: { name: string; lines: Line[] }[] = [
     lines: [
       ['Tirage vertical prise large', 4, 8, 10, 120],
       ['Rowing assis à la poulie', 3, 10, 12, 90],
-      ['Rowing un bras avec haltère', 3, 10, 10, 60],
+      ['Rowing un bras avec haltère', 3, 10, 10, 60, { perSide: true }],
       ['Presse à cuisses', 3, 10, 12, 120],
-      ['Leg curl', 2, 12, 12, 60],
+      ['Leg curl assis', 2, 12, 12, 60],
       ['Curl biceps aux haltères', 3, 10, 12, 60],
     ],
   },
   {
     name: 'Séance C – Haut du corps',
     lines: [
-      ['Développé incliné', 4, 8, 10, 120],
+      ['Développé incliné aux haltères', 4, 8, 10, 120],
       ['Tirage vertical prise serrée', 4, 8, 10, 120],
-      ['Dips assistés', 3, 10, 12, 90],
-      ['Face pull', 3, 15, 15, 60],
+      ['Dips assistés', 3, 10, 12, 90, { alternatives: ['Pompes'] }],
+      ['Face pull', 3, 15, 15, 60, { alternatives: ['Oiseau à la machine'] }],
       ['Élévations latérales', 3, 12, 15, 60],
-      ['Gainage (planche)', 3, 30, 45, 45, true],
+      ['Gainage (planche)', 3, 30, 45, 45, { timed: true }],
     ],
   },
 ]
@@ -74,10 +75,24 @@ export function buildSeed(newId: () => string = () => crypto.randomUUID()) {
   const templates: WorkoutTemplate[] = PROGRAM.map((t) => ({
     id: newId(),
     name: t.name,
-    exercises: t.lines.map(([name, sets, repsMin, repsMax, restSeconds, isTimed]): TemplateExercise => {
+    exercises: t.lines.map(([name, sets, repsMin, repsMax, restSeconds, opts = {}]): TemplateExercise => {
       const exerciseId = byName.get(name)
       if (!exerciseId) throw new Error(`Exercice inconnu dans le programme : ${name}`)
-      return { exerciseId, sets, repsMin, repsMax, restSeconds, ...(isTimed ? { isTimed: true } : {}) }
+      const alternativeIds = (opts.alternatives ?? []).map((n) => {
+        const altId = byName.get(n)
+        if (!altId) throw new Error(`Remplacement inconnu dans le programme : ${n}`)
+        return altId
+      })
+      return {
+        exerciseId,
+        sets,
+        repsMin,
+        repsMax,
+        restSeconds,
+        ...(opts.timed ? { isTimed: true } : {}),
+        ...(opts.perSide ? { perSide: true } : {}),
+        ...(alternativeIds.length ? { alternativeIds } : {}),
+      }
     }),
   }))
 

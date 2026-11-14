@@ -85,14 +85,23 @@ export function prefillSets(count: number, target: SessionEntry['target'], previ
   })
 }
 
-export function targetFromLine(line: Pick<TemplateExercise, 'repsMin' | 'repsMax' | 'restSeconds' | 'isTimed'>): EntryTarget {
-  return { repsMin: line.repsMin, repsMax: line.repsMax, restSeconds: line.restSeconds, ...(line.isTimed ? { isTimed: true } : {}) }
+export function targetFromLine(
+  line: Pick<TemplateExercise, 'repsMin' | 'repsMax' | 'restSeconds' | 'isTimed' | 'perSide' | 'alternativeIds'>,
+): EntryTarget {
+  return {
+    repsMin: line.repsMin,
+    repsMax: line.repsMax,
+    restSeconds: line.restSeconds,
+    ...(line.isTimed ? { isTimed: true } : {}),
+    ...(line.perSide ? { perSide: true } : {}),
+    ...(line.alternativeIds?.length ? { alternativeIds: [...line.alternativeIds] } : {}),
+  }
 }
 
 /** Crée une entrée de séance pour un exercice, avec le matériel par défaut et les valeurs précédentes. */
 export function buildEntry(
   exercise: Pick<Exercise, 'id' | 'equipment'>,
-  line: Pick<TemplateExercise, 'sets' | 'repsMin' | 'repsMax' | 'restSeconds' | 'isTimed'>,
+  line: Pick<TemplateExercise, 'sets' | 'repsMin' | 'repsMax' | 'restSeconds' | 'isTimed' | 'perSide' | 'alternativeIds'>,
   history: WorkoutSession[],
 ): SessionEntry {
   const equipment = defaultEquipment(exercise.equipment)
@@ -138,14 +147,16 @@ export function nextTemplateId(program: Program | undefined, sessions: WorkoutSe
   return program.templateIds[(i + 1) % program.templateIds.length]
 }
 
-/** Volume = somme charge × répétitions des séries validées (hors exercices chronométrés). */
+/** Volume d'une entrée : charge × répétitions des séries validées ; × 2 pour un exercice « par bras » (les deux bras travaillent). */
+export function entryVolume(e: SessionEntry): number {
+  if (e.target?.isTimed) return 0
+  const v = e.sets.filter((x) => x.done).reduce((a, x) => a + x.weightKg * x.reps, 0)
+  return roundKg(e.target?.perSide ? v * 2 : v)
+}
+
+/** Volume = somme des volumes des exercices (hors exercices chronométrés). */
 export function sessionVolume(s: WorkoutSession): number {
-  return roundKg(
-    s.entries.reduce(
-      (sum, e) => sum + (e.target?.isTimed ? 0 : e.sets.filter((x) => x.done).reduce((a, x) => a + x.weightKg * x.reps, 0)),
-      0,
-    ),
-  )
+  return roundKg(s.entries.reduce((sum, e) => sum + entryVolume(e), 0))
 }
 
 export function durationMinutes(s: WorkoutSession): number {
@@ -226,4 +237,31 @@ export function validateSet(sets: SessionSet[], i: number, done: boolean): Sessi
     }
     return s
   })
+}
+
+/**
+ * Remplace l'exercice d'indice `index` pendant la séance.
+ * Le remplaçant garde l'objectif (séries restantes, fourchette, repos, durée) mais pas « par bras » ;
+ * l'exercice d'origine devient un remplacement proposé (pour revenir en arrière).
+ * Les séries déjà faites restent enregistrées sur l'exercice d'origine.
+ */
+export function replaceEntry(
+  entries: SessionEntry[],
+  index: number,
+  ex: Pick<Exercise, 'id' | 'equipment'>,
+  history: WorkoutSession[],
+  defaultRestSeconds: number,
+): { entries: SessionEntry[]; index: number } {
+  const entry = entries[index]
+  if (!entry) return { entries, index }
+  const doneSets = entry.sets.filter((s) => s.done)
+  const remaining = Math.max(1, entry.sets.length - doneSets.length)
+  const base = entry.target ?? { repsMin: 10, repsMax: 12, restSeconds: defaultRestSeconds }
+  const alternativeIds = [entry.exerciseId, ...(entry.target?.alternativeIds ?? [])].filter((id, i, a) => id !== ex.id && a.indexOf(id) === i)
+  const built = buildEntry(ex, { ...base, perSide: false, alternativeIds, sets: remaining }, history)
+  const before = entries.slice(0, index)
+  const after = entries.slice(index + 1)
+  return doneSets.length
+    ? { entries: [...before, { ...entry, sets: doneSets }, built, ...after], index: index + 1 }
+    : { entries: [...before, built, ...after], index }
 }

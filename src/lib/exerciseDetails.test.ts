@@ -9,8 +9,13 @@ const seed = buildSeed(() => 'id')
 const images = import.meta.glob('../../public/media/exercises/*/*.jpg')
 
 describe('fiches des exercices', () => {
-  it('chacun des 21 exercices de départ a ses consignes, ses points de vigilance et son image', () => {
+  it('chaque exercice de départ a ses consignes, ses points de vigilance et ses 2 photos (sauf le SkiErg, sans photo)', () => {
     for (const e of seed.exercises) {
+      if (e.name === 'SkiErg') {
+        expect(e.warnings?.length).toBeGreaterThan(0)
+        expect(e.mediaUrl).toBeUndefined()
+        continue
+      }
       expect(lines(e.instructions).length, e.name).toBeGreaterThan(0)
       expect(e.warnings?.length, e.name).toBeGreaterThan(0)
       expect(e.mediaUrl, e.name).toMatch(/^media\/exercises\/[^/]+\/0\.jpg$/)
@@ -22,6 +27,7 @@ describe('fiches des exercices', () => {
   it('chaque fiche correspond à un exercice et chaque image existe dans public/', () => {
     for (const d of EXERCISE_DETAILS) {
       expect(seed.exercises.some((e) => findDetail(e.name) === d), d.name).toBe(true)
+      if (!d.mediaUrl) continue
       expect(Object.keys(images), d.mediaUrl).toContain(`../../public/${d.mediaUrl}`)
       expect(Object.keys(images), d.mediaEndUrl).toContain(`../../public/${d.mediaEndUrl}`)
     }
@@ -31,7 +37,7 @@ describe('fiches des exercices', () => {
     expect(findDetail('Gainage (planche)')?.name).toBe('Gainage')
     expect(findDetail('Vélo / rameur (échauffement)')?.name).toBe('Vélo / rameur')
     expect(findDetail('DEVELOPPE COUCHE')?.name).toBe('Développé couché')
-    expect(findDetail('Hip thrust')).toBeUndefined()
+    expect(findDetail('Squat bulgare')).toBeUndefined()
   })
 
   it('ne remplace pas ce qui a déjà été saisi', () => {

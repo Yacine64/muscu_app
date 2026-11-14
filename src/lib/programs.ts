@@ -35,9 +35,9 @@ export function formatRest(seconds: number): string {
 }
 
 /** « 3 × 8–10 » ou « 3 × 12 » ou « 3 × 30–45 s ». */
-export function formatLine(e: Pick<TemplateExercise, 'sets' | 'repsMin' | 'repsMax' | 'isTimed'>): string {
+export function formatLine(e: Pick<TemplateExercise, 'sets' | 'repsMin' | 'repsMax' | 'isTimed' | 'perSide'>): string {
   const range = e.repsMin === e.repsMax ? `${e.repsMin}` : `${e.repsMin}–${e.repsMax}`
-  return `${e.sets} × ${range}${e.isTimed ? ' s' : ''}`
+  return `${e.sets} × ${range}${e.isTimed ? ' s' : ''}${e.perSide ? ' / bras' : ''}`
 }
 
 /** Nouvelle ligne d'exercice avec des valeurs par défaut raisonnables. */

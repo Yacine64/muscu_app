@@ -34,6 +34,8 @@ export interface TemplateExercise {
   repsMax: number // en secondes si isTimed
   restSeconds: number
   isTimed?: boolean // gainage : durée au lieu de répétitions
+  perSide?: boolean // répétitions par bras (ex. rowing un bras) ; la charge est celle d'un seul haltère
+  alternativeIds?: string[] // remplacements proposés pendant la séance
 }
 
 export interface WorkoutTemplate {
@@ -55,6 +57,8 @@ export interface EntryTarget {
   repsMax: number
   restSeconds: number
   isTimed?: boolean
+  perSide?: boolean
+  alternativeIds?: string[]
 }
 
 export interface SessionEntry {

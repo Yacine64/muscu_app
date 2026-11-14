@@ -18,6 +18,7 @@ import {
   formatKg,
   suggestProgression,
   targetFromLine,
+  replaceEntry,
   validateSet,
   type Previous,
   type Suggestion,
@@ -78,21 +79,15 @@ export default function SeanceEnCours({
     if (!wasDone) restTimer.start(entry.target?.restSeconds ?? settings.defaultRestSeconds)
   }
 
+  function replaceWith(ex: Exercise) {
+    const r = replaceEntry(session.entries, index, ex, history, settings.defaultRestSeconds)
+    save({ ...session, entries: r.entries })
+    setIndex(r.index)
+  }
+
   function onPick(ex: Exercise) {
     if (picker === 'replace' && entry) {
-      // Le remplaçant garde l'objectif (séries, fourchette, repos) de l'exercice remplacé.
-      const doneSets = entry.sets.filter((s) => s.done)
-      const remaining = Math.max(1, entry.sets.length - doneSets.length)
-      const built = buildEntry(ex, { ...(entry.target ?? newLine(ex.id, settings.defaultRestSeconds)), sets: remaining }, history)
-      const before = session.entries.slice(0, index)
-      const after = session.entries.slice(index + 1)
-      if (doneSets.length) {
-        // Les séries déjà faites restent enregistrées sur l'exercice d'origine.
-        save({ ...session, entries: [...before, { ...entry, sets: doneSets }, built, ...after] })
-        setIndex(index + 1)
-      } else {
-        save({ ...session, entries: [...before, built, ...after] })
-      }
+      replaceWith(ex)
     } else {
       const built = buildEntry(ex, newLine(ex.id, settings.defaultRestSeconds), history)
       const at = session.entries.length ? index + 1 : 0
@@ -178,6 +173,8 @@ export default function SeanceEnCours({
           onChange={(e) => updateEntry(index, e)}
           onEquipment={(eq) => updateEntry(index, changeEquipment(entry, eq, history, session.id))}
           onValidate={validate}
+          alternatives={(entry.target?.alternativeIds ?? []).map((id) => byId.get(id)).filter((x): x is Exercise => !!x && !x.archived)}
+          onReplaceWith={replaceWith}
         />
       )}
 
@@ -282,7 +279,11 @@ function ExerciseCard({
   onChange,
   onEquipment,
   onValidate,
+  alternatives,
+  onReplaceWith,
 }: {
+  alternatives: Exercise[]
+  onReplaceWith: (ex: Exercise) => void
   entry: SessionEntry
   exercise?: Exercise
   previous?: Previous
@@ -309,6 +310,20 @@ function ExerciseCard({
     <section className="mx-4 mt-3 rounded-3xl bg-neutral-900 p-4">
       <h2 className="text-2xl font-bold leading-tight">{exercise?.name ?? 'Exercice supprimé'}</h2>
       {exercise?.assisted && <p className="mt-1 text-sm text-amber-300">Machine d’assistance : moins de kg = plus dur</p>}
+      {alternatives.length > 0 && entry.sets.every((s) => !s.done) && (
+        <div className="mt-3 flex flex-wrap gap-2">
+          {alternatives.map((alt) => (
+            <button
+              key={alt.id}
+              type="button"
+              onClick={() => onReplaceWith(alt)}
+              className="min-h-11 rounded-full border border-neutral-600 px-4 text-base text-neutral-200 active:bg-neutral-800"
+            >
+              ⇄ Remplacer par : <strong>{alt.name}</strong>
+            </button>
+          ))}
+        </div>
+      )}
       {exercise && <ExerciseGuideToggle ex={exercise} />}
       <p className="mt-1 text-neutral-400">
         Objectif {formatLine({ ...target, sets: entry.sets.length })} · repos {formatRest(target.restSeconds)}
@@ -371,11 +386,11 @@ function ExerciseCard({
             }`}
           >
             <span className="pb-4 text-center text-lg font-bold text-neutral-400">{i + 1}</span>
-            {!timed && <NumberField big decimal label="kg" value={s.weightKg} onChange={(n) => setSet(i, { weightKg: n })} />}
+            {!timed && <NumberField big decimal label={target.perSide ? 'kg / haltère' : 'kg'} value={s.weightKg} onChange={(n) => setSet(i, { weightKg: n })} />}
             {timed ? (
               <NumberField big label="secondes" value={s.durationSec ?? 0} onChange={(n) => setSet(i, { durationSec: n })} />
             ) : (
-              <NumberField big label="reps" value={s.reps} onChange={(n) => setSet(i, { reps: n })} />
+              <NumberField big label={target.perSide ? 'reps / bras' : 'reps'} value={s.reps} onChange={(n) => setSet(i, { reps: n })} />
             )}
             <button
               type="button"

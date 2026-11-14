@@ -1,5 +1,5 @@
 [
-  { "name": "Développé couché", "primaryMuscle": "Pectoraux", "secondaryMuscles": ["Épaules", "Triceps"], "equipment": ["barre", "machine"] },
+  { "name": "Développé couché", "primaryMuscle": "Pectoraux", "secondaryMuscles": ["Épaules", "Triceps"], "equipment": ["barre", "machine", "halteres"] },
   { "name": "Développé incliné aux haltères", "primaryMuscle": "Pectoraux", "secondaryMuscles": ["Épaules", "Triceps"], "equipment": ["halteres"] },
   { "name": "Développé incliné", "primaryMuscle": "Pectoraux", "secondaryMuscles": ["Épaules", "Triceps"], "equipment": ["barre", "machine"] },
   { "name": "Écartés à la poulie", "primaryMuscle": "Pectoraux", "secondaryMuscles": ["Épaules"], "equipment": ["poulie"] },
@@ -19,5 +19,15 @@
   { "name": "Leg curl", "primaryMuscle": "Ischios", "secondaryMuscles": [], "equipment": ["machine"] },
   { "name": "Fentes", "primaryMuscle": "Quadriceps", "secondaryMuscles": ["Fessiers"], "equipment": ["halteres"] },
   { "name": "Gainage (planche)", "primaryMuscle": "Abdominaux", "secondaryMuscles": ["Épaules"], "equipment": ["poids_du_corps"] },
-  { "name": "Vélo / rameur (échauffement)", "primaryMuscle": "Cardio", "secondaryMuscles": [], "equipment": ["machine"] }
+  { "name": "Vélo / rameur (échauffement)", "primaryMuscle": "Cardio", "secondaryMuscles": [], "equipment": ["machine"] },
+  { "name": "Leg curl assis", "primaryMuscle": "Ischios", "secondaryMuscles": [], "equipment": ["machine"] },
+  { "name": "Hip thrust", "primaryMuscle": "Fessiers", "secondaryMuscles": ["Ischios"], "equipment": ["machine"] },
+  { "name": "Leg extension", "primaryMuscle": "Quadriceps", "secondaryMuscles": [], "equipment": ["machine"] },
+  { "name": "Adducteurs", "primaryMuscle": "Adducteurs", "secondaryMuscles": [], "equipment": ["machine"] },
+  { "name": "Abducteurs", "primaryMuscle": "Fessiers", "secondaryMuscles": [], "equipment": ["machine"] },
+  { "name": "Hyperextensions", "primaryMuscle": "Lombaires", "secondaryMuscles": ["Fessiers", "Ischios"], "equipment": ["poids_du_corps"] },
+  { "name": "Tractions assistées", "primaryMuscle": "Dos", "secondaryMuscles": ["Biceps"], "equipment": ["machine"], "assisted": true },
+  { "name": "Oiseau à la machine", "primaryMuscle": "Épaules (arrière)", "secondaryMuscles": ["Haut du dos"], "equipment": ["machine"] },
+  { "name": "Rameur", "primaryMuscle": "Cardio", "secondaryMuscles": ["Dos", "Quadriceps"], "equipment": ["machine"] },
+  { "name": "SkiErg", "primaryMuscle": "Cardio", "secondaryMuscles": ["Dos", "Triceps"], "equipment": ["machine"] }
 ]

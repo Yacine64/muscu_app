@@ -1,5 +1,6 @@
 import Dexie, { type EntityTable } from 'dexie'
 import { applyDetail, findDetail } from '../lib/exerciseDetails'
+import { migrateV5 } from '../lib/migrations'
 import { buildSeed } from './seed'
 import type { BodyWeight, Exercise, Measurement, Program, Settings, WorkoutSession, WorkoutTemplate } from './types'
 
@@ -8,7 +9,7 @@ import type { BodyWeight, Exercise, Measurement, Program, Settings, WorkoutSessi
  * Pour changer le schéma plus tard (ex. alimentation), ajouter un `this.version(2).stores({...})`
  * sans modifier la version 1 : Dexie migre les données existantes sans rien perdre.
  */
-export const SCHEMA_VERSION = 4
+export const SCHEMA_VERSION = 5
 
 export class MuscuDB extends Dexie {
   exercises!: EntityTable<Exercise, 'id'>
@@ -69,6 +70,21 @@ export class MuscuDB extends Dexie {
             Object.assign(e, applyDetail(e, findDetail(e.name)))
           }),
       )
+
+    // v5 : nouveaux exercices, séances B et C, rowing « par bras », remplacements proposés (voir lib/migrations.ts).
+    this.version(5)
+      .stores({})
+      .upgrade(async (tx) => {
+        const [exercises, templates, sessions] = await Promise.all([
+          tx.table('exercises').toArray(),
+          tx.table('templates').toArray(),
+          tx.table('sessions').toArray(),
+        ])
+        const r = migrateV5({ exercises, templates, sessions }, buildSeed().exercises, () => crypto.randomUUID())
+        await tx.table('exercises').bulkPut([...r.exercises, ...r.added])
+        await tx.table('templates').bulkPut(r.templates)
+        await tx.table('sessions').bulkPut(r.sessions)
+      })
 
     // Exécuté une seule fois, à la création de la base sur le téléphone.
     this.on('populate', (tx) => {

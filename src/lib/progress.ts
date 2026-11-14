@@ -1,5 +1,5 @@
 import type { BodyWeight, Equipment, Measurement, WorkoutSession } from '../db/types'
-import { roundKg } from './session'
+import { entryVolume, roundKg } from './session'
 
 /** Jour local au format AAAA-MM-JJ (pour les saisies de poids et de mensurations). */
 export function toDay(d: Date): string {
@@ -72,9 +72,8 @@ export function exerciseSeries(sessions: WorkoutSession[], exerciseId: string, e
     .filter((s) => s.endedAt)
     .sort((a, b) => a.startedAt.localeCompare(b.startedAt))
     .flatMap((s) => {
-      const sets = s.entries
-        .filter((e) => e.exerciseId === exerciseId && e.equipment === equipment)
-        .flatMap((e) => e.sets.filter((x) => x.done))
+      const entries = s.entries.filter((e) => e.exerciseId === exerciseId && e.equipment === equipment)
+      const sets = entries.flatMap((e) => e.sets.filter((x) => x.done))
       if (!sets.length) return []
       const weights = sets.map((x) => x.weightKg)
       return [
@@ -82,7 +81,7 @@ export function exerciseSeries(sessions: WorkoutSession[], exerciseId: string, e
           date: s.startedAt,
           sessionId: s.id,
           bestKg: assisted ? Math.min(...weights) : Math.max(...weights),
-          volume: roundKg(sets.reduce((a, x) => a + x.weightKg * x.reps, 0)),
+          volume: roundKg(entries.reduce((a, e) => a + entryVolume({ ...e, target: e.target ? { ...e.target, isTimed: false } : e.target }), 0)),
           bestDurationSec: Math.max(0, ...sets.map((x) => x.durationSec ?? 0)),
           sets: sets.map(({ weightKg, reps, durationSec }) => ({ weightKg, reps, ...(durationSec !== undefined ? { durationSec } : {}) })),
         },

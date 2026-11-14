@@ -376,5 +376,181 @@
     "mediaEndUrl": "media/exercises/Bicycling_Stationary/1.jpg",
     "mediaType": "image",
     "mediaSource": "free-exercise-db (github.com/yuhonas/free-exercise-db) – déclaré domaine public (Unlicense)"
+  },
+  {
+    "name": "Leg curl assis",
+    "instructions": [
+      "Règle le dossier pour que les genoux soient alignés avec l'axe de rotation de la machine.",
+      "Place le boudin inférieur sous les mollets, juste au-dessus des talons, et abaisse le boudin de cuisse pour bloquer les jambes.",
+      "Fléchis les genoux pour ramener les talons sous le siège en expirant.",
+      "Remonte lentement jusqu'à jambes presque tendues."
+    ],
+    "warnings": [
+      "Garde le dos et les fesses bien en appui, sans décoller les hanches.",
+      "Contrôle la remontée au lieu de laisser la charge ramener les jambes.",
+      "Un mauvais réglage du genou par rapport à l'axe de la machine sollicite mal l'articulation."
+    ],
+    "mediaUrl": "media/exercises/Seated_Leg_Curl/0.jpg",
+    "mediaEndUrl": "media/exercises/Seated_Leg_Curl/1.jpg",
+    "mediaType": "image",
+    "mediaSource": "free-exercise-db (github.com/yuhonas/free-exercise-db) – déclaré domaine public (Unlicense)"
+  },
+  {
+    "name": "Hip thrust",
+    "instructions": [
+      "Installe-toi sur la machine, haut du dos contre l'appui, ceinture ou boudin sur le bassin.",
+      "Place les pieds à largeur de hanches, à plat, genoux fléchis à environ 90° en position haute.",
+      "Pousse dans les talons pour monter le bassin jusqu'à l'alignement épaules-hanches-genoux.",
+      "Serre les fessiers une seconde en haut, puis redescends de façon contrôlée."
+    ],
+    "warnings": [
+      "Ne cambre pas le bas du dos en haut : c'est le bassin qui monte, pas les lombaires.",
+      "Garde le menton légèrement rentré, regard vers l'avant.",
+      "Les genoux restent dans l'axe des pieds, sans rentrer vers l'intérieur."
+    ],
+    "mediaUrl": "media/exercises/Barbell_Hip_Thrust/0.jpg",
+    "mediaEndUrl": "media/exercises/Barbell_Hip_Thrust/1.jpg",
+    "mediaType": "image",
+    "mediaSource": "free-exercise-db (github.com/yuhonas/free-exercise-db) – déclaré domaine public (Unlicense)"
+  },
+  {
+    "name": "Leg extension",
+    "instructions": [
+      "Règle le dossier pour que les genoux soient alignés avec l'axe de la machine.",
+      "Place le boudin sur le bas des tibias, au-dessus des chevilles, et tiens les poignées.",
+      "Tends les jambes en contractant les quadriceps, sans à-coup.",
+      "Redescends lentement jusqu'à environ 90°."
+    ],
+    "warnings": [
+      "Ne lance pas la charge : un mouvement brusque stresse le genou.",
+      "Garde les fesses collées au siège.",
+      "En cas de douleur au genou, réduis la charge ou l'amplitude."
+    ],
+    "mediaUrl": "media/exercises/Leg_Extensions/0.jpg",
+    "mediaEndUrl": "media/exercises/Leg_Extensions/1.jpg",
+    "mediaType": "image",
+    "mediaSource": "free-exercise-db (github.com/yuhonas/free-exercise-db) – déclaré domaine public (Unlicense)"
+  },
+  {
+    "name": "Adducteurs",
+    "instructions": [
+      "Assieds-toi dos contre le dossier, l'intérieur des genoux contre les appuis.",
+      "Règle l'ouverture de départ à une amplitude confortable, sans forcer l'étirement.",
+      "Serre les jambes l'une vers l'autre en expirant.",
+      "Reviens lentement à la position de départ."
+    ],
+    "warnings": [
+      "Ne règle pas une ouverture trop grande au début : risque d'élongation.",
+      "Contrôle le retour plutôt que de laisser les jambes s'écarter d'un coup.",
+      "Garde le dos en appui, sans te pencher en avant."
+    ],
+    "mediaUrl": "media/exercises/Thigh_Adductor/0.jpg",
+    "mediaEndUrl": "media/exercises/Thigh_Adductor/1.jpg",
+    "mediaType": "image",
+    "mediaSource": "free-exercise-db (github.com/yuhonas/free-exercise-db) – déclaré domaine public (Unlicense)"
+  },
+  {
+    "name": "Abducteurs",
+    "instructions": [
+      "Assieds-toi dos contre le dossier, l'extérieur des genoux contre les appuis.",
+      "Tiens les poignées et garde le bassin stable.",
+      "Écarte les jambes vers l'extérieur en contractant les fessiers.",
+      "Ramène lentement les jambes à la position de départ."
+    ],
+    "warnings": [
+      "Évite les mouvements rapides avec élan.",
+      "Ne laisse pas les plaques claquer à chaque retour.",
+      "Garde le dos en appui, sans t'aider du buste."
+    ],
+    "mediaUrl": "media/exercises/Thigh_Abductor/0.jpg",
+    "mediaEndUrl": "media/exercises/Thigh_Abductor/1.jpg",
+    "mediaType": "image",
+    "mediaSource": "free-exercise-db (github.com/yuhonas/free-exercise-db) – déclaré domaine public (Unlicense)"
+  },
+  {
+    "name": "Hyperextensions",
+    "instructions": [
+      "Règle l'appui pour qu'il soit juste sous le bassin, chevilles bloquées sous les boudins.",
+      "Croise les bras sur la poitrine, corps aligné.",
+      "Descends le buste lentement en fléchissant les hanches, dos droit.",
+      "Remonte jusqu'à l'alignement du corps, sans aller plus loin."
+    ],
+    "warnings": [
+      "Ne remonte pas au-delà de l'alignement : l'hyper-cambrure surcharge les lombaires.",
+      "Pas d'à-coups ni d'élan.",
+      "Garde le dos neutre, sans l'arrondir en bas du mouvement."
+    ],
+    "mediaUrl": "media/exercises/Hyperextensions_Back_Extensions/0.jpg",
+    "mediaEndUrl": "media/exercises/Hyperextensions_Back_Extensions/1.jpg",
+    "mediaType": "image",
+    "mediaSource": "free-exercise-db (github.com/yuhonas/free-exercise-db) – déclaré domaine public (Unlicense)"
+  },
+  {
+    "name": "Tractions assistées",
+    "instructions": [
+      "Règle le contrepoids de la machine (ou choisis l'élastique) : plus d'aide = plus facile.",
+      "Place les genoux ou les pieds sur l'appui et saisis la barre un peu plus large que les épaules.",
+      "Tire en descendant les coudes jusqu'à ce que le menton passe la barre.",
+      "Redescends lentement jusqu'à bras presque tendus."
+    ],
+    "warnings": [
+      "Ne te balance pas pour monter.",
+      "Garde les épaules basses, loin des oreilles, dès le début du mouvement.",
+      "Avec un élastique, vérifie qu'il est bien fixé et monte/descends de l'appui avec précaution."
+    ],
+    "mediaUrl": "media/exercises/Band_Assisted_Pull-Up/0.jpg",
+    "mediaEndUrl": "media/exercises/Band_Assisted_Pull-Up/1.jpg",
+    "mediaType": "image",
+    "mediaSource": "free-exercise-db (github.com/yuhonas/free-exercise-db) – déclaré domaine public (Unlicense)"
+  },
+  {
+    "name": "Oiseau à la machine",
+    "instructions": [
+      "Règle les poignées en position arrière et le siège pour que les poignées soient à hauteur d'épaules.",
+      "Assieds-toi face au dossier, poitrine contre l'appui.",
+      "Ouvre les bras vers l'arrière en arc de cercle, coudes légèrement fléchis.",
+      "Reviens lentement à la position de départ."
+    ],
+    "warnings": [
+      "Ne serre pas les omoplates à fond : le travail vient de l'arrière des épaules.",
+      "Ne hausse pas les épaules pendant le mouvement.",
+      "Préfère une charge légère et contrôlée."
+    ],
+    "mediaUrl": "media/exercises/Reverse_Machine_Flyes/0.jpg",
+    "mediaEndUrl": "media/exercises/Reverse_Machine_Flyes/1.jpg",
+    "mediaType": "image",
+    "mediaSource": "free-exercise-db (github.com/yuhonas/free-exercise-db) – déclaré domaine public (Unlicense)"
+  },
+  {
+    "name": "Rameur",
+    "instructions": [
+      "Cale les pieds dans les sangles, la sangle sur le haut du pied.",
+      "Pousse d'abord avec les jambes, bras tendus et dos droit.",
+      "Bascule légèrement le buste en arrière puis tire la poignée vers le bas des côtes.",
+      "Reviens dans l'ordre inverse : bras, buste, puis jambes."
+    ],
+    "warnings": [
+      "Ne tire pas avec le dos rond.",
+      "Respecte l'ordre jambes – buste – bras ; ne plie pas les genoux avant que la poignée les ait dépassés au retour.",
+      "Une résistance (damper) trop élevée n'est pas plus efficace : 3 à 5 suffit en général."
+    ],
+    "mediaUrl": "media/exercises/Rowing_Stationary/0.jpg",
+    "mediaEndUrl": "media/exercises/Rowing_Stationary/1.jpg",
+    "mediaType": "image",
+    "mediaSource": "free-exercise-db (github.com/yuhonas/free-exercise-db) – déclaré domaine public (Unlicense)"
+  },
+  {
+    "name": "SkiErg",
+    "instructions": [
+      "Debout face à la machine, pieds à largeur de hanches, saisis les poignées bras tendus au-dessus de la tête.",
+      "Tire les poignées vers le bas en fléchissant les hanches et les genoux, abdos gainés.",
+      "Finis le mouvement avec les mains près des hanches.",
+      "Remonte en te redressant et en ramenant les bras vers le haut."
+    ],
+    "warnings": [
+      "Ne tire pas seulement avec les bras : le mouvement part des hanches et du tronc.",
+      "Garde le dos droit, sans arrondir en bas du mouvement.",
+      "Ne te penche pas exagérément en avant ni en squat profond."
+    ]
   }
 ]

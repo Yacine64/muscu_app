@@ -30,6 +30,7 @@ function Editor({ template, exercises, defaultRest }: { template: WorkoutTemplat
   const [name, setName] = useState(template.name)
   const [lines, setLines] = useState<TemplateExercise[]>(template.exercises)
   const [picking, setPicking] = useState(false)
+  const [altFor, setAltFor] = useState<number | null>(null) // ligne dont on choisit un remplacement
   const [confirmDelete, setConfirmDelete] = useState(false)
   const byId = new Map(exercises.map((e) => [e.id, e]))
 
@@ -96,10 +97,34 @@ function Editor({ template, exercises, defaultRest }: { template: WorkoutTemplat
                     <NumberField label={l.isTimed ? 'Max (s)' : 'Reps max'} value={l.repsMax} onChange={(n) => updateLine(i, { repsMax: n })} />
                     <NumberField label="Repos (s)" value={l.restSeconds} onChange={(n) => updateLine(i, { restSeconds: n })} />
                   </div>
-                  <div className="mt-3">
+                  <div className="mt-3 flex flex-wrap gap-2">
                     <Chip active={!!l.isTimed} onClick={() => updateLine(i, { isTimed: !l.isTimed })}>
                       {l.isTimed ? '⏱ Durée (secondes)' : '⏱ Compter en durée'}
                     </Chip>
+                    <Chip active={!!l.perSide} onClick={() => updateLine(i, { perSide: !l.perSide })}>
+                      {l.perSide ? '✓ Par bras' : 'Par bras'}
+                    </Chip>
+                  </div>
+                  <div className="mt-3">
+                    <span className="mb-1 block text-xs font-medium uppercase tracking-wide text-neutral-400">Remplacements proposés en séance</span>
+                    <div className="flex flex-wrap items-center gap-2">
+                      {(l.alternativeIds ?? []).map((altId) => (
+                        <span key={altId} className="flex min-h-11 items-center gap-1 rounded-full bg-neutral-800 pl-4 pr-1">
+                          {byId.get(altId)?.name ?? 'Exercice supprimé'}
+                          <button
+                            type="button"
+                            aria-label={`Retirer ${byId.get(altId)?.name ?? ''} des remplacements`}
+                            className="flex h-9 w-9 items-center justify-center rounded-full text-neutral-400 active:bg-neutral-700"
+                            onClick={() => updateLine(i, { alternativeIds: (l.alternativeIds ?? []).filter((x) => x !== altId) })}
+                          >
+                            ✕
+                          </button>
+                        </span>
+                      ))}
+                      <button type="button" className="min-h-11 px-2 text-lime-400 underline" onClick={() => setAltFor(i)}>
+                        + Ajouter
+                      </button>
+                    </div>
                   </div>
                 </li>
               )
@@ -146,6 +171,20 @@ function Editor({ template, exercises, defaultRest }: { template: WorkoutTemplat
           </div>
         )}
       </div>
+
+      {altFor !== null && (
+        <ExercisePicker
+          title="Remplacement proposé"
+          onClose={() => setAltFor(null)}
+          onPick={(e) => {
+            const l = lines[altFor]
+            if (l && e.id !== l.exerciseId && !(l.alternativeIds ?? []).includes(e.id)) {
+              updateLine(altFor, { alternativeIds: [...(l.alternativeIds ?? []), e.id] })
+            }
+            setAltFor(null)
+          }}
+        />
+      )}
 
       {picking && (
         <ExercisePicker

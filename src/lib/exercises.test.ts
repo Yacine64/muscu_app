@@ -12,8 +12,8 @@ const seed = buildSeed(fakeId)
 const names = (list: Exercise[]) => list.map((e) => e.name).sort()
 
 describe('données de départ', () => {
-  it('contient 21 exercices et 3 séances', () => {
-    expect(seed.exercises).toHaveLength(21)
+  it('contient 31 exercices et 3 séances', () => {
+    expect(seed.exercises).toHaveLength(31)
     expect(seed.templates.map((t) => t.exercises.length)).toEqual([6, 6, 6])
     expect(seed.programs[0].templateIds).toEqual(seed.templates.map((t) => t.id))
   })
